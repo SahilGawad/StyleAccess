@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>BROVERSE | Login / Register</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(145deg, #0B1120 0%, #111827 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .glass-card {
+      background: rgba(18, 25, 45, 0.75);
+      backdrop-filter: blur(16px);
+      border-radius: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.4), 0 0 0 0.5px rgba(255, 255, 255, 0.05);
+      width: 100%;
+      max-width: 480px;
+      padding: 2rem;
+      transition: all 0.2s ease;
+    }
+
+    .logo-area {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .logo-icon {
+      background: linear-gradient(135deg, #FFB347, #FF7E05);
+      width: 56px;
+      height: 56px;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      box-shadow: 0 8px 20px rgba(255, 110, 20, 0.3);
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-top: 0.5rem;
+      color: white;
+      letter-spacing: -0.3px;
+    }
+
+    .sub {
+      color: #9ca3af;
+      font-size: 0.8rem;
+      margin-top: 0.2rem;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.8rem;
+      border-bottom: 1px solid #334155;
+      justify-content: center;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #94a3b8;
+      cursor: pointer;
+      transition: 0.2s;
+      border-radius: 2rem 2rem 0 0;
+    }
+    .tab-btn.active {
+      color: #f97316;
+      border-bottom: 2px solid #f97316;
+    }
+    .tab-btn:hover {
+      color: white;
+    }
+
+    .form-panel {
+      display: none;
+    }
+    .form-panel.active {
+      display: block;
+    }
+
+    .input-group {
+      margin-bottom: 1.2rem;
+    }
+
+    label {
+      display: block;
+      color: #e2e8f0;
+      font-weight: 500;
+      font-size: 0.75rem;
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.3px;
+    }
+
+    .input-icon {
+      position: relative;
+    }
+
+    .input-icon i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6b7280;
+      font-size: 0.9rem;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2.4rem;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 1.2rem;
+      font-size: 0.85rem;
+      color: #f1f5f9;
+      transition: 0.2s;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: #f97316;
+      box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
+    }
+
+    .btn-primary {
+      width: 100%;
+      background: linear-gradient(95deg, #f97316, #ea580c);
+      border: none;
+      padding: 0.75rem;
+      border-radius: 2rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-top: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 8px 18px rgba(249, 115, 22, 0.25);
+    }
+
+    .btn-primary:hover {
+      transform: scale(0.98);
+      background: linear-gradient(95deg, #fd862c, #d45a05);
+    }
+
+    .demo-row {
+      display: flex;
+      gap: 0.8rem;
+      margin: 1.2rem 0 0.5rem;
+      justify-content: center;
+    }
+
+    .demo-btn {
+      background: #1e293b;
+      border: 1px solid #3b4a62;
+      border-radius: 2rem;
+      padding: 0.4rem 0.9rem;
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: #cbd5e6;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .demo-btn:hover {
+      background: #2d3a55;
+      color: white;
+      border-color: #f97316;
+    }
+
+    .footer-link {
+      text-align: center;
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: #94a3b8;
+    }
+
+    .footer-link a {
+      color: #f97316;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .alert {
+      background: rgba(220, 38, 38, 0.2);
+      border-left: 4px solid #ef4444;
+      padding: 0.6rem;
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      margin-bottom: 1rem;
+      color: #fecaca;
+    }
+
+    @media (max-width: 500px) {
+      .glass-card { padding: 1.5rem; }
+      h2 { font-size: 1.3rem; }
+      .tab-btn { padding: 0.4rem 1rem; font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="glass-card">
+  <div class="logo-area">
+    <div class="logo-icon"><i class="fas fa-crown"></i></div>
+    <h2>BROVERSE</h2>
+    <div class="sub">Elite men's accessories</div>
+  </div>
+
+  <!-- Tab Buttons -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="login">Login</button>
+    <button class="tab-btn" data-tab="register">Register</button>
+  </div>
+
+  <!-- Login Form -->
+  <div id="loginPanel" class="form-panel active">
+    <form id="loginForm">
+      <div class="input-group">
+        <label>Email address</label>
+        <div class="input-icon">
+          <i class="fas fa-envelope"></i>
+          <input type="email" id="loginEmail" placeholder="you@example.com" required>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <div class="input-icon">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="loginPassword" placeholder="••••••••" required>
+        </div>
+      </div>
+      <div id="loginError" class="alert" style="display: none;"></div>
+      <button type="submit" class="btn-primary"><i class="fas fa-sign-in-alt"></i> Sign in</button>
+    </form>
+    <div class="demo-row">
+      <div class="demo-btn" id="demoUserBtn"><i class="fas fa-user"></i> Demo User</div>
+      <div class="demo-btn" id="demoAdminBtn"><i class="fas fa-shield-alt"></i> Demo Admin</div>
+    </div>
+  </div>
+
+  <!-- Register Form -->
+  <div id="registerPanel" class="form-panel">
+    <form id="registerForm">
+      <div class="input-group">
+        <label>Full Name</label>
+        <div class="input-icon">
+          <i class="fas fa-user"></i>
+          <input type="text" id="regName" placeholder="John Doe" required>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Email address</label>
+        <div class="input-icon">
+          <i class="fas fa-envelope"></i>
+          <input type="email" id="regEmail" placeholder="you@example.com" required>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <div class="input-icon">
+          <i class="fas fa-key"></i>
+          <input type="password" id="regPassword" placeholder="Create a password" required>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Role</label>
+        <div class="input-icon">
+          <i class="fas fa-tag"></i>
+          <select id="regRole">
+            <option value="user">User (Shop only)</option>
+            <option value="admin">Admin (Manage products)</option>
+          </select>
+        </div>
+      </div>
+      <div id="regError" class="alert" style="display: none;"></div>
+      <button type="submit" class="btn-primary"><i class="fas fa-user-plus"></i> Create account</button>
+    </form>
+  </div>
+
+  <div class="footer-link">
+    <span id="switchMsg">Already have an account? <a id="switchToLogin">Login here</a></span>
+  </div>
+</div>
+
+<script>
+  // Force all auth/API traffic to the known-good backend instance.
+  const APP_ORIGIN = 'http://127.0.0.1:5050';
+  const API_BASE = `${APP_ORIGIN}/api`;
+
+  // Tab switching
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const loginPanel = document.getElementById('loginPanel');
+  const registerPanel = document.getElementById('registerPanel');
+  const switchLink = document.getElementById('switchToLogin');
+  const switchMsgSpan = document.getElementById('switchMsg');
+
+  function setActiveTab(tab) {
+    tabBtns.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.tab === tab);
+    });
+    loginPanel.classList.toggle('active', tab === 'login');
+    registerPanel.classList.toggle('active', tab === 'register');
+    if (tab === 'login') {
+      switchMsgSpan.innerHTML = 'Don\'t have an account? <a id="switchToRegister">Register now</a>';
+      document.getElementById('switchToRegister')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        setActiveTab('register');
+      });
+    } else {
+      switchMsgSpan.innerHTML = 'Already have an account? <a id="switchToLogin">Login here</a>';
+      document.getElementById('switchToLogin')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        setActiveTab('login');
+      });
+    }
+  }
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      setActiveTab(btn.dataset.tab);
+    });
+  });
+
+  // Initial setup for footer link
+  setActiveTab('login');
+
+  // ---------- LOGIN ----------
+  const loginForm = document.getElementById('loginForm');
+  const loginError = document.getElementById('loginError');
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
+
+    if (!email || !password) {
+      showLoginError('Please fill both fields.');
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ email, password })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Login failed');
+
+      sessionStorage.setItem('currentUser', JSON.stringify({
+        id: data.id, name: data.name, email: data.email, role: data.role
+      }));
+
+      // Redirect through Flask routes so session/auth checks stay consistent
+      if (data.role === 'admin') {
+        window.location.href = `${APP_ORIGIN}/admin`;
+      } else {
+        window.location.href = `${APP_ORIGIN}/`;
+      }
+    } catch (err) {
+      showLoginError(err.message);
+    }
+  });
+
+  function showLoginError(msg) {
+    loginError.innerText = msg;
+    loginError.style.display = 'block';
+    setTimeout(() => loginError.style.display = 'none', 3000);
+  }
+
+  // ---------- REGISTER ----------
+  const registerForm = document.getElementById('registerForm');
+  const regError = document.getElementById('regError');
+
+  registerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('regName').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const password = document.getElementById('regPassword').value.trim();
+    const role = document.getElementById('regRole').value;
+
+    if (!name || !email || !password) {
+      showRegError('All fields are required.');
+      return;
+    }
+    if (password.length < 4) {
+      showRegError('Password must be at least 4 characters.');
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password, role })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Registration failed');
+
+      alert('✅ Registration successful! Please login.');
+      // Clear form and switch to login tab
+      registerForm.reset();
+      setActiveTab('login');
+      // Optionally pre-fill email
+      document.getElementById('loginEmail').value = email;
+    } catch (err) {
+      showRegError(err.message);
+    }
+  });
+
+  function showRegError(msg) {
+    regError.innerText = msg;
+    regError.style.display = 'block';
+    setTimeout(() => regError.style.display = 'none', 3000);
+  }
+
+  // Demo buttons (only for login)
+  document.getElementById('demoUserBtn').addEventListener('click', () => {
+    document.getElementById('loginEmail').value = 'user@broverse.com';
+    document.getElementById('loginPassword').value = 'user123';
+  });
+  document.getElementById('demoAdminBtn').addEventListener('click', () => {
+    document.getElementById('loginEmail').value = 'admin@broverse.com';
+    document.getElementById('loginPassword').value = 'admin123';
+  });
+
+  // Auto redirect if already logged in
+  (async function checkSession() {
+    try {
+      const res = await fetch(`${API_BASE}/me`, { credentials: 'include' });
+      if (res.ok) {
+        const user = await res.json();
+        if (user.role === 'admin') window.location.href = `${APP_ORIGIN}/admin`;
+        else if (user.role === 'user') window.location.href = `${APP_ORIGIN}/`;
+      }
+    } catch (e) {}
+  })();
+</script>
+</body>
+</html>

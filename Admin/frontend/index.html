@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel | BROVERSE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0B1120 0%, #111827 100%);
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .dashboard-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(18, 25, 45, 0.75);
+      backdrop-filter: blur(12px);
+      border-radius: 1.5rem;
+      padding: 1rem 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .logo-icon {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+    .logo-text h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+    }
+    .logo-text p {
+      font-size: 0.7rem;
+      color: #f97316;
+    }
+    .admin-badge {
+      background: rgba(249,115,22,0.2);
+      padding: 0.4rem 1rem;
+      border-radius: 2rem;
+      font-size: 0.8rem;
+      color: #f97316;
+      border: 1px solid rgba(249,115,22,0.4);
+    }
+    .logout-btn {
+      background: #1e293b;
+      border: 1px solid #334155;
+      padding: 0.6rem 1.2rem;
+      border-radius: 2rem;
+      color: #e2e8f0;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .logout-btn:hover {
+      background: #ef4444;
+      border-color: #ef4444;
+      color: white;
+    }
+
+    /* Add Product Card */
+    .add-product-card {
+      background: rgba(18, 25, 45, 0.7);
+      backdrop-filter: blur(8px);
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title i {
+      color: #f97316;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .input-field {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 1rem;
+      padding: 0.8rem 1rem;
+      color: white;
+      font-size: 0.9rem;
+      outline: none;
+    }
+    .input-field:focus {
+      border-color: #f97316;
+    }
+    textarea.input-field {
+      resize: vertical;
+      min-height: 80px;
+    }
+    .btn-primary {
+      background: linear-gradient(95deg, #f97316, #ea580c);
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary:hover {
+      transform: scale(0.98);
+    }
+
+    /* Products Grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    .product-card {
+      background: rgba(18, 25, 45, 0.8);
+      border-radius: 1.2rem;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: transform 0.2s;
+    }
+    .product-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(249,115,22,0.3);
+    }
+    .product-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      background: #0f172a;
+    }
+    .product-info {
+      padding: 1rem;
+    }
+    .product-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: white;
+    }
+    .product-price {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #f97316;
+      margin: 0.3rem 0;
+    }
+    .product-category {
+      font-size: 0.7rem;
+      background: rgba(249,115,22,0.2);
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 1rem;
+      color: #f97316;
+      margin-bottom: 0.5rem;
+    }
+    .product-desc {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      margin-bottom: 1rem;
+    }
+    .card-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .edit-btn, .delete-btn {
+      flex: 1;
+      padding: 0.5rem;
+      border-radius: 2rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .edit-btn {
+      background: #334155;
+      color: white;
+    }
+    .edit-btn:hover {
+      background: #475569;
+    }
+    .delete-btn {
+      background: rgba(220,38,38,0.2);
+      color: #f87171;
+      border: 1px solid rgba(220,38,38,0.3);
+    }
+    .delete-btn:hover {
+      background: #dc2626;
+      color: white;
+    }
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      background: rgba(18,25,45,0.5);
+      border-radius: 1.5rem;
+      color: #64748b;
+    }
+    @media (max-width: 640px) {
+      body { padding: 1rem; }
+      .admin-header { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+<div class="dashboard-container">
+  <!-- Header -->
+  <div class="admin-header">
+    <div class="logo-area">
+      <div class="logo-icon"><i class="fas fa-crown"></i></div>
+      <div class="logo-text">
+        <h1>BROVERSE ADMIN</h1>
+        <p>Control Center • Accessories Empire</p>
+      </div>
+    </div>
+    <div style="display: flex; gap: 1rem; align-items: center;">
+      <div class="admin-badge"><i class="fas fa-shield-alt"></i> Administrator</div>
+      <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+  </div>
+
+  <!-- Add Product Form -->
+  <div class="add-product-card">
+    <div class="section-title">
+      <i class="fas fa-plus-circle"></i> Add New Product
+    </div>
+    <div class="form-grid">
+      <input type="text" id="prodName" class="input-field" placeholder="Product name *">
+      <input type="number" id="prodPrice" class="input-field" placeholder="Price (₹) *" step="0.01">
+      <input type="text" id="prodCategory" class="input-field" placeholder="Category">
+      <input type="text" id="prodImage" class="input-field" placeholder="Image URL (optional)">
+    </div>
+    <textarea id="prodDesc" class="input-field" placeholder="Product description..."></textarea>
+    <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+      <button id="addBtn" class="btn-primary"><i class="fas fa-save"></i> Add Product</button>
+    </div>
+  </div>
+
+  <!-- Product List -->
+  <div class="section-title">
+    <i class="fas fa-boxes"></i> Manage Inventory
+  </div>
+  <div id="productList" class="products-grid">
+    <div class="empty-state"><i class="fas fa-spinner fa-pulse"></i> Loading products...</div>
+  </div>
+</div>
+
+<script>
+  // Force admin panel to use the known-good backend instance.
+  const APP_ORIGIN = 'http://127.0.0.1:5050';
+  const API_BASE = `${APP_ORIGIN}/api`;
+  let products = [];
+
+  async function fetchProducts() {
+    try {
+      const res = await fetch(`${API_BASE}/products`, { credentials: 'include' });
+      if (!res.ok) throw new Error('Failed to fetch');
+      products = await res.json();
+      renderProducts();
+    } catch (err) {
+      document.getElementById('productList').innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i> Could not load products. Make sure backend is running.</div>`;
+    }
+  }
+
+  function renderProducts() {
+    const container = document.getElementById('productList');
+    if (!products.length) {
+      container.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i> No products yet. Add your first accessory!</div>`;
+      return;
+    }
+    container.innerHTML = products.map(p => `
+      <div class="product-card" data-id="${p._id}">
+        <img class="product-image" src="${p.imageUrl || 'https://picsum.photos/id/26/300/200'}" alt="${p.name}" onerror="this.src='https://picsum.photos/id/26/300/200'">
+        <div class="product-info">
+          <div class="product-name">${escapeHtml(p.name)}</div>
+          <div class="product-price">₹${parseFloat(p.price).toFixed(2)}</div>
+          <div class="product-category"><i class="fas fa-tag"></i> ${escapeHtml(p.category || 'Uncategorized')}</div>
+          <div class="product-desc">${escapeHtml(p.description || 'No description')}</div>
+          <div class="card-actions">
+            <button class="edit-btn" onclick="editProduct('${p._id}')"><i class="fas fa-edit"></i> Edit</button>
+            <button class="delete-btn" onclick="deleteProduct('${p._id}')"><i class="fas fa-trash-alt"></i> Delete</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
+
+  async function addProduct() {
+    const name = document.getElementById('prodName').value.trim();
+    const price = document.getElementById('prodPrice').value;
+    const category = document.getElementById('prodCategory').value.trim();
+    const description = document.getElementById('prodDesc').value.trim();
+    const imageUrl = document.getElementById('prodImage').value.trim();
+
+    if (!name || !price) {
+      alert('Product name and price are required');
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/admin/products`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          name, price: parseFloat(price), category, description, imageUrl
+        })
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || 'Permission denied');
+      }
+      // Clear form
+      document.getElementById('prodName').value = '';
+      document.getElementById('prodPrice').value = '';
+      document.getElementById('prodCategory').value = '';
+      document.getElementById('prodDesc').value = '';
+      document.getElementById('prodImage').value = '';
+      fetchProducts();
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
+  async function deleteProduct(id) {
+    if (!confirm('⚠️ Delete this product permanently?')) return;
+    try {
+      const res = await fetch(`${API_BASE}/admin/products/${id}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      });
+      if (!res.ok) throw new Error('Delete failed');
+      fetchProducts();
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
+  async function editProduct(id) {
+    const product = products.find(p => p._id === id);
+    if (!product) return;
+    const newName = prompt('Edit product name', product.name);
+    if (!newName) return;
+    const newPrice = prompt('Edit price (₹)', product.price);
+    if (!newPrice) return;
+    const newCategory = prompt('Edit category', product.category || '');
+    const newDesc = prompt('Edit description', product.description || '');
+    try {
+      const res = await fetch(`${API_BASE}/admin/products/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          name: newName,
+          price: parseFloat(newPrice),
+          category: newCategory,
+          description: newDesc
+        })
+      });
+      if (!res.ok) throw new Error('Update failed');
+      fetchProducts();
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
+  async function logout() {
+    try {
+      await fetch(`${API_BASE}/logout`, { method: 'POST', credentials: 'include' });
+      sessionStorage.clear();
+      window.location.replace(`${APP_ORIGIN}/login`);
+    } catch (err) {
+      window.location.replace(`${APP_ORIGIN}/login`);
+    }
+  }
+
+  document.getElementById('addBtn').addEventListener('click', addProduct);
+  document.getElementById('logoutBtn').addEventListener('click', logout);
+
+  // Check if user is admin
+  async function checkAdmin() {
+    try {
+      const res = await fetch(`${API_BASE}/me`, { credentials: 'include' });
+      if (!res.ok) throw new Error();
+      const user = await res.json();
+      if (user.role !== 'admin') {
+        // User session is valid but not admin; move to user dashboard quietly.
+        window.location.replace(`${APP_ORIGIN}/`);
+      }
+    } catch {
+      window.location.replace(`${APP_ORIGIN}/login`);
+    }
+  }
+  checkAdmin();
+  fetchProducts();
+</script>
+</body>
+</html>
