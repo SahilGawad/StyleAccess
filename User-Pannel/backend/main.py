@@ -203,17 +203,17 @@ def home():
 @login_required
 def add_to_cart():
     name = request.form.get('name')
-    price = int(request.form.get('price'))
-
+    price_str = request.form.get('price')
+    print(f"DEBUG: price_str = {price_str}")   # should print '1099.0'
+    price = float(price_str)       
     cart = session.get('cart', {})
-
     if name in cart:
         cart[name]['qty'] += 1
     else:
         cart[name] = {"price": price, "qty": 1}
-
     session['cart'] = cart
-    return redirect('/')
+    session.modified = True
+    return redirect(url_for('home'))
 
 @app.route('/remove_item', methods=['POST'])
 @login_required
