@@ -5,9 +5,10 @@
 
 <style>
 body {
-    font-family: Arial;
-    background: #f1f3f6;
+    font-family: 'Inter', Arial;
+    background: linear-gradient(135deg, #0B1120, #111827);
     margin: 0;
+    color: white;
 }
 
 /* NAVBAR */
@@ -15,10 +16,12 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #05090f;
-    padding: 20px 30px;
-    color: white;
-    flex-wrap: wrap;
+    background: rgba(18, 25, 45, 0.7);
+    backdrop-filter: blur(12px);
+    padding: 15px 25px;
+    border-radius: 15px;
+    margin: 15px;
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
 .logo {
@@ -34,25 +37,33 @@ body {
 
 .search-box input {
     width: 100%;
-    padding: 8px;
-    border: none;
-    border-radius: 20px 0 0 20px;
+    padding: 10px;
+    border-radius: 25px 0 0 25px;
+    border: 1px solid #334155;
+    background: #1e293b;
+    color: white;
+    outline: none;
 }
 
 .search-box button {
-    padding: 8px;
-    background: #fb641b;
+    padding: 10px 15px;
+    border-radius: 0 25px 25px 0;
     border: none;
-    border-radius: 0px 20px 20px 0px;
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: white;
     cursor: pointer;
 }
 
 /* Menu */
 .menu a {
     margin-left: 15px;
-    color: white;
+    color: #cbd5f5;
     text-decoration: none;
-    font-weight: 500;
+    transition: 0.3s;
+}
+
+.menu a:hover {
+    color: #f97316;
 }
 
 /* Container */
@@ -68,27 +79,36 @@ body {
 }
 
 .product-card {
-    background: white;
+    background: rgba(18, 25, 45, 0.7);
+    border-radius: 15px;
     padding: 15px;
     text-align: center;
-    border-radius: 5px;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(249,115,22,0.4);
 }
 
 /* Button */
 button {
-    background: #fb641b;
+    background: linear-gradient(135deg, #f97316, #ea580c);
     color: white;
     border: none;
     padding: 10px;
+    border-radius: 20px;
     cursor: pointer;
 }
 
 /* Sections */
 .section-box {
-    background: white;
+    background: rgba(18, 25, 45, 0.7);
     padding: 20px;
     margin-top: 20px;
-    border-radius: 5px;
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,0.08);
 }
 
 /* Responsive */
@@ -109,6 +129,7 @@ button {
         grid-template-columns: repeat(1, 1fr);
     }
 }
+
 </style>
 
 </head>
@@ -124,14 +145,12 @@ button {
         <input type="text" name="search" placeholder="Search for products...">
         <button>🔍</button>
     </form>
-
+<!---hello--->
     <div class="menu">
         <a href="/"> Home</a>
         <a href="/?view=categories"> Categories</a>
         <a href="/?view=account"> Account</a>
         <a href="/?view=cart">🛒 Cart ({{ cart|length }})</a>
-        <!-- 🔓 LOGOUT BUTTON - added here -->
-        <a href="/logout" style="color: #fb641b;">🚪 Logout</a>
     </div>
 
 </div>
@@ -173,8 +192,27 @@ button {
 {% if view == 'account' %}
 <div class="section-box">
     <h2>My Account</h2>
-    <p>Login / Signup</p>
-    <p>My Orders</p>
+
+    {% if user %}
+        <p><b>Name:</b> {{ user.name }}</p>
+        <p><b>Email:</b> {{ user.email }}</p>
+        <p><b>Role:</b> {{ user.role }}</p>
+
+         <!-- 🔥 LOGOUT BUTTON ADDED -->
+        <div style="margin-top: 20px;">
+            <a href="/logout">
+                <button style="background:#dc3545;">Logout</button>
+            </a>
+        </div>
+        <hr>
+
+        <p>📦 My Orders</p>
+
+       
+
+    {% else %}
+        <p>Please login</p>
+    {% endif %}
 </div>
 {% endif %}
 
