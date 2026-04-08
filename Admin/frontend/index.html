@@ -8,242 +8,280 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
 
-    body {
-      background: linear-gradient(135deg, #0B1120 0%, #111827 100%);
-      min-height: 100vh;
-      padding: 2rem;
-    }
+body {
+  background: linear-gradient(135deg, #f8fafc, #eef2f7);
+  min-height: 100vh;
+  padding: 2rem;
+  color: #1f2933;
+}
 
-    .dashboard-container {
-      max-width: 1400px;
-      margin: 0 auto;
-    }
+.dashboard-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
 
-    /* Header */
-    .admin-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(18, 25, 45, 0.75);
-      backdrop-filter: blur(12px);
-      border-radius: 1.5rem;
-      padding: 1rem 2rem;
-      margin-bottom: 2rem;
-      border: 1px solid rgba(255,255,255,0.1);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    }
-    .logo-area {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-    }
-    .logo-icon {
-      background: linear-gradient(135deg, #f97316, #ea580c);
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-    }
-    .logo-text h1 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: white;
-    }
-    .logo-text p {
-      font-size: 0.7rem;
-      color: #f97316;
-    }
-    .admin-badge {
-      background: rgba(249,115,22,0.2);
-      padding: 0.4rem 1rem;
-      border-radius: 2rem;
-      font-size: 0.8rem;
-      color: #f97316;
-      border: 1px solid rgba(249,115,22,0.4);
-    }
-    .logout-btn {
-      background: #1e293b;
-      border: 1px solid #334155;
-      padding: 0.6rem 1.2rem;
-      border-radius: 2rem;
-      color: #e2e8f0;
-      cursor: pointer;
-      transition: 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .logout-btn:hover {
-      background: #ef4444;
-      border-color: #ef4444;
-      color: white;
-    }
+/* 🔥 NAVBAR (MATCHED WITH MAIN SITE) */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #111827;
+  border-radius: 1.5rem;
+  padding: 25px 25px;
+  margin-bottom: 2rem;
+  color: white;
+}
 
-    /* Add Product Card */
-    .add-product-card {
-      background: rgba(18, 25, 45, 0.7);
-      backdrop-filter: blur(8px);
-      border-radius: 1.5rem;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-    .section-title {
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: white;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .section-title i {
-      color: #f97316;
-    }
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-    .input-field {
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 1rem;
-      padding: 0.8rem 1rem;
-      color: white;
-      font-size: 0.9rem;
-      outline: none;
-    }
-    .input-field:focus {
-      border-color: #f97316;
-    }
-    textarea.input-field {
-      resize: vertical;
-      min-height: 80px;
-    }
-    .btn-primary {
-      background: linear-gradient(95deg, #f97316, #ea580c);
-      border: none;
-      padding: 0.8rem 1.5rem;
-      border-radius: 2rem;
-      font-weight: 600;
-      color: white;
-      cursor: pointer;
-      transition: 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .btn-primary:hover {
-      transform: scale(0.98);
-    }
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
 
-    /* Products Grid */
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1rem;
-    }
-    .product-card {
-      background: rgba(18, 25, 45, 0.8);
-      border-radius: 1.2rem;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.08);
-      transition: transform 0.2s;
-    }
-    .product-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(249,115,22,0.3);
-    }
-    .product-image {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      background: #0f172a;
-    }
-    .product-info {
-      padding: 1rem;
-    }
-    .product-name {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: white;
-    }
-    .product-price {
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: #f97316;
-      margin: 0.3rem 0;
-    }
-    .product-category {
-      font-size: 0.7rem;
-      background: rgba(249,115,22,0.2);
-      display: inline-block;
-      padding: 0.2rem 0.6rem;
-      border-radius: 1rem;
-      color: #f97316;
-      margin-bottom: 0.5rem;
-    }
-    .product-desc {
-      font-size: 0.8rem;
-      color: #94a3b8;
-      margin-bottom: 1rem;
-    }
-    .card-actions {
-      display: flex;
-      gap: 0.5rem;
-    }
-    .edit-btn, .delete-btn {
-      flex: 1;
-      padding: 0.5rem;
-      border-radius: 2rem;
-      font-size: 0.75rem;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-    .edit-btn {
-      background: #334155;
-      color: white;
-    }
-    .edit-btn:hover {
-      background: #475569;
-    }
-    .delete-btn {
-      background: rgba(220,38,38,0.2);
-      color: #f87171;
-      border: 1px solid rgba(220,38,38,0.3);
-    }
-    .delete-btn:hover {
-      background: #dc2626;
-      color: white;
-    }
-    .empty-state {
-      text-align: center;
-      padding: 3rem;
-      background: rgba(18,25,45,0.5);
-      border-radius: 1.5rem;
-      color: #64748b;
-    }
-    @media (max-width: 640px) {
-      body { padding: 1rem; }
-      .admin-header { flex-direction: column; gap: 1rem; text-align: center; }
-    }
+.logo-icon {
+  background: linear-gradient(135deg, #ff6a00, #dc2626);
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+}
+
+.logo-text h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ff5a2f;
+}
+
+.logo-text p {
+  font-size: 0.7rem;
+  color: #e5e7eb;
+}
+
+.admin-badge {
+  background: rgba(255, 106, 0, 0.2);
+  padding: 0.4rem 1rem;
+  border-radius: 2rem;
+  font-size: 0.8rem;
+  color: #ff7849;
+  border: 1px solid rgba(255, 106, 0, 0.4);
+}
+
+.logout-btn {
+  background: #1f2937;
+  border: 1px solid #374151;
+  padding: 0.6rem 1.2rem;
+  border-radius: 2rem;
+  color: #e5e7eb;
+  cursor: pointer;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: white;
+}
+
+/* Add Product Card */
+.add-product-card {
+  background: #ffffff;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid #e5e7eb;
+}
+
+.section-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #1f2933;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-title i {
+  color: #ff5a2f;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.input-field {
+  background: #f9fafb;
+  border: 1px solid #d1d5db;
+  border-radius: 1rem;
+  padding: 0.8rem 1rem;
+  color: #111;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.input-field:focus {
+  border-color: #ff6a00;
+}
+
+textarea.input-field {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #ff6a00, #dc2626);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 2rem;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary:hover {
+  transform: scale(0.98);
+}
+
+/* Products Grid */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.product-card {
+  background: #ffffff;
+  border-radius: 1.2rem;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  transition: transform 0.2s;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  border-color: #ff6a00;
+  box-shadow: 0 10px 20px rgba(255, 106, 0, 0.15);
+}
+
+.product-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  background: #f1f5f9;
+}
+
+.product-info {
+  padding: 1rem;
+}
+
+.product-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1f2933;
+}
+
+.product-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ff5a2f;
+  margin: 0.3rem 0;
+}
+
+.product-category {
+  font-size: 0.7rem;
+  background: rgba(255, 106, 0, 0.1);
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 1rem;
+  color: #ff5a2f;
+  margin-bottom: 0.5rem;
+}
+
+.product-desc {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-bottom: 1rem;
+}
+
+.card-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit-btn, .delete-btn {
+  flex: 1;
+  padding: 0.5rem;
+  border-radius: 2rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.edit-btn {
+  background: #f1f5f9;
+  color: #1f2933;
+}
+
+.edit-btn:hover {
+  background: #e2e8f0;
+}
+
+.delete-btn {
+  background: rgba(220,38,38,0.1);
+  color: #dc2626;
+  border: 1px solid rgba(220,38,38,0.2);
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+  color: white;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  background: #ffffff;
+  border-radius: 1.5rem;
+  color: #64748b;
+  border: 1px solid #e5e7eb;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  body { padding: 1rem; }
+
+  .admin-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+}
   </style>
 </head>
 <body>
@@ -253,9 +291,8 @@
     <div class="logo-area">
       <div class="logo-icon"><i class="fas fa-crown"></i></div>
       <div class="logo-text">
-        <h1>BROVERSE ADMIN</h1>
-        <p>Control Center • Accessories Empire</p>
-      </div>
+        <h1>StyleAccess</h1>
+       </div>
     </div>
     <div style="display: flex; gap: 1rem; align-items: center;">
       <div class="admin-badge"><i class="fas fa-shield-alt"></i> Administrator</div>
