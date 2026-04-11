@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Checkout - StyleAccess</title>
+
+<style>
+body {
+    font-family: 'Inter', Arial;
+    background: #f1f5f9;
+    margin: 0;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 30px;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #ff6a00;
+}
+
+.menu a {
+    margin-left: 15px;
+    text-decoration: none;
+    color: #333;
+}
+
+/* Layout */
+.container {
+    padding: 30px;
+}
+
+.two-col {
+    display: flex;
+    gap: 20px;
+}
+
+.col {
+    flex: 1;
+}
+
+/* Card */
+.section-box {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Inputs */
+input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+}
+
+label {
+    margin-top: 10px;
+    display: block;
+    color: #444;
+}
+
+/* Button */
+.btn {
+    background: #ff6a00;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+/* Summary */
+.summary p {
+    margin: 8px 0;
+}
+
+/* Payment options */
+.payment-methods {
+    margin-top: 10px;
+}
+
+.payment-methods label {
+    margin-right: 15px;
+}
+
+/* Responsive */
+@media(max-width:768px) {
+    .two-col {
+        flex-direction: column;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="logo">StyleAccess</div>
+    <div class="menu">
+        <a href="/">Home</a>
+        <a href="/?view=cart">Cart</a>
+    </div>
+</div>
+
+<div class="container">
+
+<h2>Checkout</h2>
+
+<div class="two-col">
+
+<!-- LEFT -->
+
+<div class="col">
+<div class="section-box">
+
+<h3>Shipping Address</h3>
+
+<form action="/place_order" method="POST">
+
+<label>Full Name</label> <input type="text" name="full_name" required>
+
+<label>Address</label> <input type="text" name="line1" required>
+
+<label>City</label> <input type="text" name="city" required>
+
+<label>State</label> <input type="text" name="state" required>
+
+<label>ZIP</label> <input type="text" name="zip" required>
+
+<label>Phone</label> <input type="text" name="phone" required>
+
+<h3>Payment Method</h3>
+
+<div class="payment-methods">
+<label><input type="radio" name="payment_method" value="upi" checked> UPI</label>
+<label><input type="radio" name="payment_method" value="cod"> Cash on Delivery</label>
+<label><input type="radio" name="payment_method" value="card"> Card</label>
+</div>
+
+<div id="pm-upi">
+<label>UPI ID</label>
+<input type="text" name="upi_id">
+</div>
+
+<div id="pm-card" style="display:none;">
+<label>Card Number</label>
+<input type="text" name="card_number">
+</div>
+
+<button type="submit" class="btn">Place Order</button>
+
+</form>
+
+</div>
+</div>
+
+<!-- RIGHT -->
+
+<div class="col">
+<div class="section-box">
+
+<h3>Order Summary</h3>
+
+<div class="summary">
+
+{% for item in checkout['items'] %}
+
+<p><b>{{ item.name }}</b> - ₹{{ item.price }} x {{ item.qty }}</p>
+{% endfor %}
+
+<hr>
+
+<p><b>Total:</b> ₹{{ checkout['total'] }}</p>
+
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+
+<script>
+document.querySelectorAll('input[name="payment_method"]').forEach(r => {
+    r.addEventListener('change', e => {
+        document.getElementById('pm-upi').style.display = e.target.value === 'upi' ? 'block' : 'none';
+        document.getElementById('pm-card').style.display = e.target.value === 'card' ? 'block' : 'none';
+    });
+});
+</script>
+
+</body>
+</html>

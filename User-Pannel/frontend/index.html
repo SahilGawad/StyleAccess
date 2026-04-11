@@ -2,54 +2,29 @@
 <html>
 <head>
 <title>StyleAccess</title>
-
 <style>
 body {
     font-family: 'Inter', Arial;
-    background: linear-gradient(135deg, #f8fafc, #eef2f7);
+    background: linear-gradient(135deg, #0B1120, #111827);
     margin: 0;
-    color: #1f2933;
+    color: white;
 }
 
-/* NAVBAR (DARK CONTRAST) */
 .navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #111827;
+    background: rgba(18, 25, 45, 0.7);
+    backdrop-filter: blur(12px);
     padding: 15px 25px;
     border-radius: 15px;
     margin: 15px;
-    color: white;
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
-.logo-area {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-}
-
-.logo-icon {
-  background: linear-gradient(135deg, #ff6a00, #dc2626);
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  color: white;
-}
-
-.logo-text h1 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #ff5a2f;
-}
-
-.logo-text p {
-  font-size: 0.7rem;
-  color: #e5e7eb;
+.logo {
+    font-size: 22px;
+    font-weight: bold;
 }
 
 /* Search */
@@ -59,12 +34,13 @@ body {
 }
 
 .search-box input {
+
     width: 100%;
     padding: 10px;
     border-radius: 25px 0 0 25px;
-    border: 1px solid #d1d5db;
-    background: #f9fafb;
-    color: #111;
+    border: 1px solid #334155;
+    background: #1e293b;
+    color: white;
     outline: none;
 }
 
@@ -72,7 +48,7 @@ body {
     padding: 10px 15px;
     border-radius: 0 25px 25px 0;
     border: none;
-    background: linear-gradient(135deg, #ff6a00, #dc2626);
+    background: linear-gradient(135deg, #f97316, #ea580c);
     color: white;
     cursor: pointer;
 }
@@ -80,13 +56,13 @@ body {
 /* Menu */
 .menu a {
     margin-left: 15px;
-    color: #e5e7eb;
+    color: #cbd5f5;
     text-decoration: none;
     transition: 0.3s;
 }
 
 .menu a:hover {
-    color: #ff5a2f;
+    color: #f97316;
 }
 
 /* Container */
@@ -101,52 +77,44 @@ body {
     gap: 20px;
 }
 
+.product-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 10px;
+}
+
 .product-card {
-    background: #ffffff;
+    background: rgba(18, 25, 45, 0.7);
     border-radius: 15px;
     padding: 15px;
     text-align: center;
-    border: 1px solid #e5e7eb;
+    border: 1px solid rgba(255,255,255,0.08);
     transition: 0.3s;
 }
 
 .product-card:hover {
     transform: translateY(-5px);
-    border-color: #ff6a00;
-    box-shadow: 0 10px 20px rgba(255, 106, 0, 0.15);
+    border-color: rgba(249,115,22,0.4);
 }
 
 /* Button */
 button {
-    background: linear-gradient(135deg, #ff6a00, #dc2626);
+    background: linear-gradient(135deg, #f97316, #ea580c);
     color: white;
     border: none;
     padding: 10px;
     border-radius: 20px;
     cursor: pointer;
-    transition: 0.3s;
-}
-
-button:hover {
-    background: linear-gradient(135deg, #ea580c, #b91c1c);
 }
 
 /* Sections */
 .section-box {
-    background: #ffffff;
+    background: rgba(18, 25, 45, 0.7);
     padding: 20px;
     margin-top: 20px;
     border-radius: 15px;
-    border: 1px solid #e5e7eb;
-}
-
-/* Optional Dark Section */
-.dark-section {
-    background: #7f1d1d; /* DEEP RED */
-    color: white;
-    padding: 20px;
-    border-radius: 15px;
-    margin-top: 20px;
+    border: 1px solid rgba(255,255,255,0.08);
 }
 
 /* Responsive */
@@ -167,6 +135,7 @@ button:hover {
         grid-template-columns: repeat(1, 1fr);
     }
 }
+
 </style>
 
 </head>
@@ -176,12 +145,7 @@ button:hover {
 <!-- NAVBAR -->
 <div class="navbar">
     
-    <div class="logo-area">
-      <div class="logo-icon"><i class="fas fa-crown"></i></div>
-      <div class="logo-text">
-        <h1>StyleAccess</h1>
-       </div>
-    </div>
+    <div class="logo">StyleAccess</div>
 
     <form method="GET" action="/" class="search-box">
         <input type="text" name="search" placeholder="Search for products...">
@@ -210,11 +174,17 @@ button:hover {
     <h3>{{ product.name }}</h3>
     <p>₹{{ product.price }}</p>
 
-    <form action="/add_to_cart" method="POST">
-        <input type="hidden" name="name" value="{{ product.name }}">
-        <input type="hidden" name="price" value="{{ product.price }}">
-        <button type="submit">Add to Cart</button>
-    </form>
+    <div class="product-actions">
+        <form action="/add_to_cart" method="POST" style="margin:0">
+            <input type="hidden" name="name" value="{{ product.name }}">
+            <input type="hidden" name="price" value="{{ product.price }}">
+            <button type="submit">Add to Cart</button>
+        </form>
+        <button onclick="buyNow('{{ product.name }}', {{ product.price }})"
+style="background:linear-gradient(135deg,#10b981,#059669);">
+Buy Now
+</button>
+    </div>
 </div>
 {% endfor %}
 </div>
@@ -291,4 +261,70 @@ button:hover {
 </div>
 
 </body>
+<!-- Polling script: refresh products every 5 seconds -->
+<script>
+function renderProducts(products) {
+    const grid = document.querySelector('.product-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    products.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+            <div style="font-size:50px;">${product.icon || '📦'}</div>
+            <h3>${product.name}</h3>
+            <p>₹${product.price}</p>
+            <div class="product-actions">
+                <form action="/add_to_cart" method="POST" style="margin:0">
+                    <input type="hidden" name="name" value="${product.name}">
+                    <input type="hidden" name="price" value="${product.price}">
+                    <button type="submit">Add to Cart</button>
+                </form>
+                <form action="/buy_now" method="POST" style="margin:0">
+                    <input type="hidden" name="name" value="${product.name}">
+                    <input type="hidden" name="price" value="${product.price}">
+                  <button onclick="buyNow('${product.name}', '${product.price}')"
+                    style="background:linear-gradient(135deg,#10b981,#059669);">Buy Now</button>
+                </form>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+}
+
+async function fetchAndRender() {
+    try {
+        const res = await fetch('/api/products');
+        if (!res.ok) return;
+        const data = await res.json();
+        renderProducts(Array.isArray(data) ? data : []);
+    } catch (e) {
+        console.error('Failed to fetch products', e);
+    }
+}
+/* ✅ ADD THIS HERE */
+function buyNow(name, price) {
+    fetch('/buy_now', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, price })
+    })
+    .then(() => {
+        window.location.href = '/payment';
+    })
+    .catch(err => console.error(err));
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetchAndRender();
+    setInterval(fetchAndRender, 5000);
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetchAndRender();
+    setInterval(fetchAndRender, 5000);
+});
+
+</script>
 </html>
