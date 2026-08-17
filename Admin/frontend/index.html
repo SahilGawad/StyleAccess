@@ -1,489 +1,114 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel | BROVERSE</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
-}
-
-body {
-  background: linear-gradient(135deg, #f8fafc, #eef2f7);
-  min-height: 100vh;
-  padding: 2rem;
-  color: #1f2933;
-}
-
-.dashboard-container {
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-/* 🔥 NAVBAR (MATCHED WITH MAIN SITE) */
-.admin-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #111827;
-  border-radius: 1.5rem;
-  padding: 25px 25px;
-  margin-bottom: 2rem;
-  color: white;
-}
-
-.logo-area {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-}
-
-.logo-icon {
-  background: linear-gradient(135deg, #ff6a00, #dc2626);
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  color: white;
-}
-
-.logo-text h1 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #ff5a2f;
-}
-
-.logo-text p {
-  font-size: 0.7rem;
-  color: #e5e7eb;
-}
-
-.admin-badge {
-  background: rgba(255, 106, 0, 0.2);
-  padding: 0.4rem 1rem;
-  border-radius: 2rem;
-  font-size: 0.8rem;
-  color: #ff7849;
-  border: 1px solid rgba(255, 106, 0, 0.4);
-}
-
-.logout-btn {
-  background: #1f2937;
-  border: 1px solid #374151;
-  padding: 0.6rem 1.2rem;
-  border-radius: 2rem;
-  color: #e5e7eb;
-  cursor: pointer;
-  transition: 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.logout-btn:hover {
-  background: #dc2626;
-  border-color: #dc2626;
-  color: white;
-}
-
-/* Add Product Card */
-.add-product-card {
-  background: #ffffff;
-  border-radius: 1.5rem;
-  padding: 1.5rem;
-  margin-bottom: 2rem;
-  border: 1px solid #e5e7eb;
-}
-
-.section-title {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #1f2933;
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.section-title i {
-  color: #ff5a2f;
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.input-field {
-  background: #f9fafb;
-  border: 1px solid #d1d5db;
-  border-radius: 1rem;
-  padding: 0.8rem 1rem;
-  color: #111;
-  font-size: 0.9rem;
-  outline: none;
-}
-
-.input-field:focus {
-  border-color: #ff6a00;
-}
-
-textarea.input-field {
-  resize: vertical;
-  min-height: 80px;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, #ff6a00, #dc2626);
-  border: none;
-  padding: 0.8rem 1.5rem;
-  border-radius: 2rem;
-  font-weight: 600;
-  color: white;
-  cursor: pointer;
-  transition: 0.2s;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.btn-primary:hover {
-  transform: scale(0.98);
-}
-
-/* Products Grid */
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1rem;
-}
-
-.product-card {
-  background: #ffffff;
-  border-radius: 1.2rem;
-  overflow: hidden;
-  border: 1px solid #e5e7eb;
-  transition: transform 0.2s;
-}
-
-.product-card:hover {
-  transform: translateY(-4px);
-  border-color: #ff6a00;
-  box-shadow: 0 10px 20px rgba(255, 106, 0, 0.15);
-}
-
-.product-image {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  background: #f1f5f9;
-}
-
-.product-info {
-  padding: 1rem;
-}
-
-.product-name {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #1f2933;
-}
-
-.product-price {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #ff5a2f;
-  margin: 0.3rem 0;
-}
-
-.product-category {
-  font-size: 0.7rem;
-  background: rgba(255, 106, 0, 0.1);
-  display: inline-block;
-  padding: 0.2rem 0.6rem;
-  border-radius: 1rem;
-  color: #ff5a2f;
-  margin-bottom: 0.5rem;
-}
-
-.product-desc {
-  font-size: 0.8rem;
-  color: #64748b;
-  margin-bottom: 1rem;
-}
-
-.card-actions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.edit-btn, .delete-btn {
-  flex: 1;
-  padding: 0.5rem;
-  border-radius: 2rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-.edit-btn {
-  background: #f1f5f9;
-  color: #1f2933;
-}
-
-.edit-btn:hover {
-  background: #e2e8f0;
-}
-
-.delete-btn {
-  background: rgba(220,38,38,0.1);
-  color: #dc2626;
-  border: 1px solid rgba(220,38,38,0.2);
-}
-
-.delete-btn:hover {
-  background: #dc2626;
-  color: white;
-}
-
-.empty-state {
-  text-align: center;
-  padding: 3rem;
-  background: #ffffff;
-  border-radius: 1.5rem;
-  color: #64748b;
-  border: 1px solid #e5e7eb;
-}
-
-/* Responsive */
-@media (max-width: 640px) {
-  body { padding: 1rem; }
-
-  .admin-header {
-    flex-direction: column;
-    gap: 1rem;
-    text-align: center;
-  }
-}
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#162018">
+  <meta name="description" content="StyleAccess inventory and order management.">
+  <title>Studio — StyleAccess</title>
+  <link rel="stylesheet" href="/static/site.css">
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+  <script src="/static/admin.js" defer></script>
 </head>
-<body>
-<div class="dashboard-container">
-  <!-- Header -->
-  <div class="admin-header">
-    <div class="logo-area">
-      <div class="logo-icon"><i class="fas fa-crown"></i></div>
-      <div class="logo-text">
-        <h1>StyleAccess</h1>
-       </div>
-    </div>
-    <div style="display: flex; gap: 1rem; align-items: center;">
-      <div class="admin-badge"><i class="fas fa-shield-alt"></i> Administrator</div>
-      <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
-    </div>
-  </div>
+<body class="admin-body">
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <a href="/admin" class="brand">StyleAccess<small>Studio</small></a>
+      <nav class="admin-nav" aria-label="Administration">
+        <button class="active" type="button" data-admin-view="inventory"><i data-lucide="layout-grid"></i><span>Inventory</span></button>
+        <button type="button" data-admin-view="orders"><i data-lucide="package-check"></i><span>Orders</span></button>
+        <a href="/" target="_blank" rel="noopener"><i data-lucide="store"></i><span>View storefront</span></a>
+      </nav>
+      <div class="admin-sidebar-foot">
+        <button class="btn btn-light" id="adminLogout" type="button"><i data-lucide="log-out"></i><span>Sign out</span></button>
+      </div>
+    </aside>
 
-  <!-- Add Product Form -->
-  <div class="add-product-card">
-    <div class="section-title">
-      <i class="fas fa-plus-circle"></i> Add New Product
-    </div>
-    <div class="form-grid">
-      <input type="text" id="prodName" class="input-field" placeholder="Product name *">
-      <input type="number" id="prodPrice" class="input-field" placeholder="Price (₹) *" step="0.01">
-      <input type="text" id="prodCategory" class="input-field" placeholder="Category">
-      <input type="text" id="prodImage" class="input-field" placeholder="Image URL (optional)">
-    </div>
-    <textarea id="prodDesc" class="input-field" placeholder="Product description..."></textarea>
-    <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
-      <button id="addBtn" class="btn-primary"><i class="fas fa-save"></i> Add Product</button>
-    </div>
-  </div>
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div>
+          <p class="eyebrow">Management studio</p>
+          <h1 id="adminPageTitle">Inventory</h1>
+          <p id="adminPageSubtitle">Manage the pieces customers see in your collection.</p>
+        </div>
+        <div class="admin-user">
+          <div class="admin-user-avatar" id="adminInitials">SA</div>
+          <div><strong id="adminName">Administrator</strong><span>StyleAccess team</span></div>
+        </div>
+      </header>
 
-  <!-- Product List -->
-  <div class="section-title">
-    <i class="fas fa-boxes"></i> Manage Inventory
-  </div>
-  <div id="productList" class="products-grid">
-    <div class="empty-state"><i class="fas fa-spinner fa-pulse"></i> Loading products...</div>
-  </div>
-</div>
+      <section class="stat-grid" aria-label="Store summary">
+        <article class="stat-card"><div class="stat-icon"><i data-lucide="shirt"></i></div><div><strong id="productCount">—</strong><span>Products</span></div></article>
+        <article class="stat-card"><div class="stat-icon"><i data-lucide="boxes"></i></div><div><strong id="stockCount">—</strong><span>Units in stock</span></div></article>
+        <article class="stat-card"><div class="stat-icon"><i data-lucide="package-check"></i></div><div><strong id="orderCount">—</strong><span>Total orders</span></div></article>
+        <article class="stat-card"><div class="stat-icon"><i data-lucide="indian-rupee"></i></div><div><strong id="catalogValue">—</strong><span>Catalog value</span></div></article>
+      </section>
 
-<script>
-  // Force admin panel to use the known-good backend instance.
-  const APP_ORIGIN = 'http://127.0.0.1:5050';
-  const API_BASE = `${APP_ORIGIN}/api`;
-  let products = [];
-
-  async function fetchProducts() {
-    try {
-      const res = await fetch(`${API_BASE}/products`, { credentials: 'include' });
-      if (!res.ok) throw new Error('Failed to fetch');
-      products = await res.json();
-      renderProducts();
-    } catch (err) {
-      document.getElementById('productList').innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i> Could not load products. Make sure backend is running.</div>`;
-    }
-  }
-
-  function renderProducts() {
-    const container = document.getElementById('productList');
-    if (!products.length) {
-      container.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i> No products yet. Add your first accessory!</div>`;
-      return;
-    }
-    container.innerHTML = products.map(p => `
-      <div class="product-card" data-id="${p._id}">
-        <img class="product-image" src="${p.imageUrl || 'https://picsum.photos/id/26/300/200'}" alt="${p.name}" onerror="this.src='https://picsum.photos/id/26/300/200'">
-        <div class="product-info">
-          <div class="product-name">${escapeHtml(p.name)}</div>
-          <div class="product-price">₹${parseFloat(p.price).toFixed(2)}</div>
-          <div class="product-category"><i class="fas fa-tag"></i> ${escapeHtml(p.category || 'Uncategorized')}</div>
-          <div class="product-desc">${escapeHtml(p.description || 'No description')}</div>
-          <div class="card-actions">
-            <button class="edit-btn" onclick="editProduct('${p._id}')"><i class="fas fa-edit"></i> Edit</button>
-            <button class="delete-btn" onclick="deleteProduct('${p._id}')"><i class="fas fa-trash-alt"></i> Delete</button>
+      <section class="admin-view active" id="inventoryView">
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <div><h2>Collection inventory</h2><p>Search, edit and publish your clothing catalog.</p></div>
+            <div class="inventory-tools">
+              <label class="admin-search">
+                <i data-lucide="search"></i>
+                <span class="sr-only">Search products</span>
+                <input id="inventorySearch" type="search" placeholder="Search inventory…">
+              </label>
+              <button class="btn" id="newProductBtn" type="button"><i data-lucide="plus"></i> Add product</button>
+            </div>
+          </div>
+          <div class="inventory-table-wrap">
+            <table class="inventory-table">
+              <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Sizes</th><th><span class="sr-only">Actions</span></th></tr></thead>
+              <tbody id="inventoryRows">
+                <tr><td colspan="6"><div class="empty-state"><i data-lucide="loader-circle"></i><p>Loading your collection…</p></div></td></tr>
+              </tbody>
+            </table>
           </div>
         </div>
+      </section>
+
+      <section class="admin-view" id="ordersView">
+        <div class="admin-card">
+          <div class="admin-card-head"><div><h2>Recent orders</h2><p>The latest customer purchases across the store.</p></div></div>
+          <div class="inventory-table-wrap">
+            <table class="inventory-table orders-table">
+              <thead><tr><th>Order</th><th>Customer</th><th>Items</th><th>Total</th><th>Payment</th><th>Status</th></tr></thead>
+              <tbody id="orderRows"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="overlay" id="adminOverlay"></div>
+  <section class="modal admin-form-modal" id="productModal" aria-hidden="true" aria-labelledby="productModalTitle">
+    <div class="admin-form-head">
+      <div><p class="eyebrow" id="productFormEyebrow">New collection piece</p><h2 id="productModalTitle">Add product</h2></div>
+      <button class="icon-btn" id="productModalClose" type="button" aria-label="Close form"><i data-lucide="x"></i></button>
+    </div>
+    <form class="admin-product-form" id="productForm">
+      <input type="hidden" id="productId">
+      <div class="admin-form-grid">
+        <div class="admin-field"><label for="productName">Product name</label><input id="productName" type="text" placeholder="The Regent Blazer" required></div>
+        <div class="admin-field"><label for="productCategory">Category</label><select id="productCategory" required><option>Tailoring</option><option>Shirts</option><option>Outerwear</option><option>Knitwear</option><option>Essentials</option><option>Accessories</option></select></div>
+        <div class="admin-field"><label for="productPrice">Selling price (₹)</label><input id="productPrice" type="number" min="1" step="1" placeholder="8490" required></div>
+        <div class="admin-field"><label for="productComparePrice">Compare-at price (₹)</label><input id="productComparePrice" type="number" min="0" step="1" placeholder="9990"></div>
+        <div class="admin-field"><label for="productStock">Available stock</label><input id="productStock" type="number" min="0" step="1" placeholder="20" required></div>
+        <div class="admin-field"><label for="productSizes">Sizes</label><input id="productSizes" type="text" placeholder="S, M, L, XL" required></div>
+        <div class="admin-field"><label for="productBadge">Product badge</label><input id="productBadge" type="text" placeholder="New, Bestseller, Limited"></div>
+        <div class="admin-field"><label for="productImage">Product image URL</label><input id="productImage" type="url" placeholder="https://…"></div>
+        <div class="admin-field full"><label for="productDescription">Description</label><textarea id="productDescription" placeholder="Describe the fabric, fit and defining details…" required></textarea></div>
       </div>
-    `).join('');
-  }
+      <div class="form-alert" id="productFormAlert" role="alert"></div>
+      <div class="admin-form-actions">
+        <button type="button" class="btn btn-outline" id="cancelProductBtn">Cancel</button>
+        <button type="submit" class="btn" id="saveProductBtn">Save product <i data-lucide="arrow-right"></i></button>
+      </div>
+    </form>
+  </section>
 
-  function escapeHtml(str) {
-    if (!str) return '';
-    return str.replace(/[&<>]/g, function(m) {
-      if (m === '&') return '&amp;';
-      if (m === '<') return '&lt;';
-      if (m === '>') return '&gt;';
-      return m;
-    });
-  }
-
-  async function addProduct() {
-    const name = document.getElementById('prodName').value.trim();
-    const price = document.getElementById('prodPrice').value;
-    const category = document.getElementById('prodCategory').value.trim();
-    const description = document.getElementById('prodDesc').value.trim();
-    const imageUrl = document.getElementById('prodImage').value.trim();
-
-    if (!name || !price) {
-      alert('Product name and price are required');
-      return;
-    }
-
-    try {
-      const res = await fetch(`${API_BASE}/admin/products`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({
-          name, price: parseFloat(price), category, description, imageUrl
-        })
-      });
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || 'Permission denied');
-      }
-      // Clear form
-      document.getElementById('prodName').value = '';
-      document.getElementById('prodPrice').value = '';
-      document.getElementById('prodCategory').value = '';
-      document.getElementById('prodDesc').value = '';
-      document.getElementById('prodImage').value = '';
-      fetchProducts();
-    } catch (err) {
-      alert(err.message);
-    }
-  }
-
-  async function deleteProduct(id) {
-    if (!confirm('⚠️ Delete this product permanently?')) return;
-    try {
-      const res = await fetch(`${API_BASE}/admin/products/${id}`, {
-        method: 'DELETE',
-        credentials: 'include'
-      });
-      if (!res.ok) throw new Error('Delete failed');
-      fetchProducts();
-    } catch (err) {
-      alert(err.message);
-    }
-  }
-
-  async function editProduct(id) {
-    const product = products.find(p => p._id === id);
-    if (!product) return;
-    const newName = prompt('Edit product name', product.name);
-    if (!newName) return;
-    const newPrice = prompt('Edit price (₹)', product.price);
-    if (!newPrice) return;
-    const newCategory = prompt('Edit category', product.category || '');
-    const newDesc = prompt('Edit description', product.description || '');
-    try {
-      const res = await fetch(`${API_BASE}/admin/products/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({
-          name: newName,
-          price: parseFloat(newPrice),
-          category: newCategory,
-          description: newDesc
-        })
-      });
-      if (!res.ok) throw new Error('Update failed');
-      fetchProducts();
-    } catch (err) {
-      alert(err.message);
-    }
-  }
-
-  async function logout() {
-    try {
-      await fetch(`${API_BASE}/logout`, { method: 'POST', credentials: 'include' });
-      sessionStorage.clear();
-      window.location.replace(`${APP_ORIGIN}/login`);
-    } catch (err) {
-      window.location.replace(`${APP_ORIGIN}/login`);
-    }
-  }
-
-  document.getElementById('addBtn').addEventListener('click', addProduct);
-  document.getElementById('logoutBtn').addEventListener('click', logout);
-
-  // Check if user is admin
-  async function checkAdmin() {
-    try {
-      const res = await fetch(`${API_BASE}/me`, { credentials: 'include' });
-      if (!res.ok) throw new Error();
-      const user = await res.json();
-      if (user.role !== 'admin') {
-        // User session is valid but not admin; move to user dashboard quietly.
-        window.location.replace(`${APP_ORIGIN}/`);
-      }
-    } catch {
-      window.location.replace(`${APP_ORIGIN}/login`);
-    }
-  }
-  checkAdmin();
-  fetchProducts();
-</script>
+  <div class="toast" id="toast" role="status" aria-live="polite"><i data-lucide="check-circle"></i><span id="toastText"></span></div>
 </body>
 </html>

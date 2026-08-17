@@ -1,330 +1,395 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-<title>StyleAccess</title>
-<style>
-body {
-    font-family: 'Inter', Arial;
-    background: linear-gradient(135deg, #0B1120, #111827);
-    margin: 0;
-    color: white;
-}
-
-.navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: rgba(18, 25, 45, 0.7);
-    backdrop-filter: blur(12px);
-    padding: 15px 25px;
-    border-radius: 15px;
-    margin: 15px;
-    border: 1px solid rgba(255,255,255,0.1);
-}
-
-.logo {
-    font-size: 22px;
-    font-weight: bold;
-}
-
-/* Search */
-.search-box {
-    display: flex;
-    width: 40%;
-}
-
-.search-box input {
-
-    width: 100%;
-    padding: 10px;
-    border-radius: 25px 0 0 25px;
-    border: 1px solid #334155;
-    background: #1e293b;
-    color: white;
-    outline: none;
-}
-
-.search-box button {
-    padding: 10px 15px;
-    border-radius: 0 25px 25px 0;
-    border: none;
-    background: linear-gradient(135deg, #f97316, #ea580c);
-    color: white;
-    cursor: pointer;
-}
-
-/* Menu */
-.menu a {
-    margin-left: 15px;
-    color: #cbd5f5;
-    text-decoration: none;
-    transition: 0.3s;
-}
-
-.menu a:hover {
-    color: #f97316;
-}
-
-/* Container */
-.container {
-    padding: 20px;
-}
-
-/* Products */
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
-.product-actions {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-top: 10px;
-}
-
-.product-card {
-    background: rgba(18, 25, 45, 0.7);
-    border-radius: 15px;
-    padding: 15px;
-    text-align: center;
-    border: 1px solid rgba(255,255,255,0.08);
-    transition: 0.3s;
-}
-
-.product-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(249,115,22,0.4);
-}
-
-/* Button */
-button {
-    background: linear-gradient(135deg, #f97316, #ea580c);
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 20px;
-    cursor: pointer;
-}
-
-/* Sections */
-.section-box {
-    background: rgba(18, 25, 45, 0.7);
-    padding: 20px;
-    margin-top: 20px;
-    border-radius: 15px;
-    border: 1px solid rgba(255,255,255,0.08);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .search-box {
-        width: 100%;
-        margin-top: 10px;
-    }
-
-    .menu {
-        width: 100%;
-        margin-top: 10px;
-        display: flex;
-        justify-content: space-around;
-    }
-
-    .product-grid {
-        grid-template-columns: repeat(1, 1fr);
-    }
-}
-
-</style>
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#162018">
+  <meta name="description" content="StyleAccess — considered menswear, timeless tailoring and everyday essentials.">
+  <title>{% if view == 'account' %}My account{% elif view == 'categories' %}Collections{% else %}StyleAccess — Considered menswear{% endif %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/static/site.css">
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+  <script src="/static/storefront.js" defer></script>
 </head>
+<body data-view="{{ view }}">
+  <div class="announcement">
+    <span>Complimentary alterations</span>
+    Free express delivery across India on orders above ₹5,000
+    <span>Easy 14-day returns</span>
+  </div>
 
-<body>
+  <header class="site-header">
+    <div class="header-inner shell">
+      <button class="icon-btn mobile-trigger" id="mobileMenuBtn" type="button" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu"></i>
+      </button>
 
-<!-- NAVBAR -->
-<div class="navbar">
-    
-    <div class="logo">StyleAccess</div>
+      <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+        <a href="/" class="{% if view == 'home' %}active{% endif %}">Home</a>
+        <a href="/#shop">Shop</a>
+        <a href="/?view=categories" class="{% if view == 'categories' %}active{% endif %}">Collections</a>
+        <a href="/#story">Our story</a>
+      </nav>
 
-    <form method="GET" action="/" class="search-box">
-        <input type="text" name="search" placeholder="Search for products...">
-        <button>🔍</button>
-    </form>
-<!---hello--->
-    <div class="menu">
-        <a href="/"> Home</a>
-        <a href="/?view=categories"> Categories</a>
-        <a href="/?view=account"> Account</a>
-        <a href="/?view=cart">🛒 Cart ({{ cart|length }})</a>
+      <a href="/" class="brand" aria-label="StyleAccess home">
+        StyleAccess
+        <small>Considered menswear</small>
+      </a>
+
+      <div class="header-actions">
+        <button class="icon-btn" id="searchToggle" type="button" aria-label="Search" aria-expanded="false">
+          <i data-lucide="search"></i>
+        </button>
+        <button class="icon-btn wishlist-action" id="wishlistTrigger" type="button" aria-label="Show saved items">
+          <i data-lucide="heart"></i>
+          <span class="count-badge" id="wishlistCount" hidden>0</span>
+        </button>
+        <a class="icon-btn account-action" href="/?view=account" aria-label="My account">
+          <i data-lucide="user-round"></i>
+        </a>
+        <button class="icon-btn" id="cartTrigger" type="button" aria-label="Open shopping bag">
+          <i data-lucide="shopping-bag"></i>
+          <span class="count-badge" id="cartCount">{{ cart_summary.count }}</span>
+        </button>
+      </div>
     </div>
 
-</div>
-
-<div class="container">
-
-<!-- PRODUCTS -->
-{% if view == 'home' %}
-<h2>Products</h2>
-
-<div class="product-grid">
-{% for product in products %}
-<div class="product-card">
-    <div style="font-size:50px;">{{ product.icon }}</div>
-    <h3>{{ product.name }}</h3>
-    <p>₹{{ product.price }}</p>
-
-    <div class="product-actions">
-        <form action="/add_to_cart" method="POST" style="margin:0">
-            <input type="hidden" name="name" value="{{ product.name }}">
-            <input type="hidden" name="price" value="{{ product.price }}">
-            <button type="submit">Add to Cart</button>
-        </form>
-        <button onclick="buyNow('{{ product.name }}', {{ product.price }})"
-style="background:linear-gradient(135deg,#10b981,#059669);">
-Buy Now
-</button>
+    <div class="search-panel" id="searchPanel">
+      <form action="/" method="get" class="search-form shell" role="search">
+        <i data-lucide="search" aria-hidden="true"></i>
+        <label class="sr-only" for="siteSearch">Search the collection</label>
+        <input id="siteSearch" type="search" name="search" value="{{ search_query }}" placeholder="Search shirts, tailoring, outerwear…" autocomplete="off">
+        <button type="submit" class="btn">Search</button>
+      </form>
     </div>
-</div>
-{% endfor %}
-</div>
-{% endif %}
+  </header>
 
-<!-- CATEGORIES -->
-{% if view == 'categories' %}
-<div class="section-box">
-    <h2>Categories</h2>
-    <p>👕 Clothing</p>
-    <p>⌚ Watches</p>
-    <p>🕶️ Accessories</p>
-</div>
-{% endif %}
-
-<!-- ACCOUNT -->
-{% if view == 'account' %}
-<div class="section-box">
-    <h2>My Account</h2>
-
-    {% if user %}
-        <p><b>Name:</b> {{ user.name }}</p>
-        <p><b>Email:</b> {{ user.email }}</p>
-        <p><b>Role:</b> {{ user.role }}</p>
-
-         <!-- 🔥 LOGOUT BUTTON ADDED -->
-        <div style="margin-top: 20px;">
-            <a href="/logout">
-                <button style="background:#dc3545;">Logout</button>
-            </a>
+  {% if view == 'home' %}
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">The new season · 2026</p>
+        <h1 id="hero-title">Quiet confidence, <em>well made.</em></h1>
+        <p>A considered wardrobe of elevated essentials, natural textures and enduring silhouettes—designed to feel right from the first wear.</p>
+        <div class="hero-actions">
+          <a href="#shop" class="btn">Shop new arrivals <i data-lucide="arrow-right"></i></a>
+          <a href="/?view=categories" class="btn btn-outline">Explore collections</a>
         </div>
-        <hr>
+        <div class="hero-note"><i data-lucide="scissors"></i> Complimentary first alteration on tailored pieces</div>
+      </div>
+      <div class="hero-image">
+        <img src="/static/images/belgravia-coat.jpg" alt="Man wearing a refined camel overcoat" fetchpriority="high">
+        <span class="hero-caption">The Regent collection · Limited edition</span>
+      </div>
+    </section>
 
-        <p>📦 My Orders</p>
+    <div class="service-strip">
+      <div class="service-strip-inner shell">
+        <div class="service-item"><i data-lucide="truck"></i> Express delivery</div>
+        <div class="service-item"><i data-lucide="rotate-ccw"></i> 14-day easy returns</div>
+        <div class="service-item"><i data-lucide="shield-check"></i> Secure checkout</div>
+        <div class="service-item"><i data-lucide="message-circle"></i> Personal style advice</div>
+      </div>
+    </div>
 
-       
+    <section class="section section-paper" aria-labelledby="collections-heading">
+      <div class="shell">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Shop by mood</p>
+            <h2 id="collections-heading">The wardrobe, considered.</h2>
+          </div>
+          <a href="/?view=categories" class="text-link">View all collections <i data-lucide="arrow-up-right"></i></a>
+        </div>
 
-    {% else %}
-        <p>Please login</p>
-    {% endif %}
-</div>
-{% endif %}
-
-<!-- CART -->
-{% if view == 'cart' %}
-<div class="section-box">
-<h2>My Cart</h2>
-
-{% if cart %}
-    {% for name, item in cart.items() %}
-        <p>
-            <b>{{ name }}</b> - ₹{{ item.price }} x {{ item.qty }}
-
-            <form action="/remove_item" method="POST" style="display:inline;">
-                <input type="hidden" name="name" value="{{ name }}">
-                <button type="submit">Remove</button>
-            </form>
-        </p>
-    {% endfor %}
-
-    <h3>Total: ₹{{ total }}</h3>
-
-    <form action="/place_order" method="POST">
-        <button type="submit">Place Order</button>
-    </form>
-
-{% else %}
-    <p>Your cart is empty</p>
-{% endif %}
-
-</div>
-{% endif %}
-
-</div>
-
-</body>
-<!-- Polling script: refresh products every 5 seconds -->
-<script>
-function renderProducts(products) {
-    const grid = document.querySelector('.product-grid');
-    if (!grid) return;
-    grid.innerHTML = '';
-    products.forEach(product => {
-        const card = document.createElement('div');
-        card.className = 'product-card';
-        card.innerHTML = `
-            <div style="font-size:50px;">${product.icon || '📦'}</div>
-            <h3>${product.name}</h3>
-            <p>₹${product.price}</p>
-            <div class="product-actions">
-                <form action="/add_to_cart" method="POST" style="margin:0">
-                    <input type="hidden" name="name" value="${product.name}">
-                    <input type="hidden" name="price" value="${product.price}">
-                    <button type="submit">Add to Cart</button>
-                </form>
-                <form action="/buy_now" method="POST" style="margin:0">
-                    <input type="hidden" name="name" value="${product.name}">
-                    <input type="hidden" name="price" value="${product.price}">
-                  <button onclick="buyNow('${product.name}', '${product.price}')"
-                    style="background:linear-gradient(135deg,#10b981,#059669);">Buy Now</button>
-                </form>
+        <div class="collection-grid">
+          <article class="collection-card">
+            <img src="/static/images/regent-blazer.jpg" alt="Man in considered tailoring" loading="lazy">
+            <div class="collection-card-content">
+              <p>01 · Refined form</p>
+              <h3>Tailoring</h3>
+              <a href="#shop" data-category-link="Tailoring">Shop the collection</a>
             </div>
-        `;
-        grid.appendChild(card);
-    });
-}
+          </article>
+          <article class="collection-card">
+            <img src="/static/images/portofino-shirt.jpg" alt="Premium shirts on a clothing rail" loading="lazy">
+            <div class="collection-card-content">
+              <p>02 · Everyday polish</p>
+              <h3>Shirting</h3>
+              <a href="#shop" data-category-link="Shirts">Shop shirts</a>
+            </div>
+          </article>
+          <article class="collection-card">
+            <img src="/static/images/weekender-jacket.jpg" alt="Man in a black weekend jacket" loading="lazy">
+            <div class="collection-card-content">
+              <p>03 · Layer well</p>
+              <h3>Outerwear</h3>
+              <a href="#shop" data-category-link="Outerwear">Shop outerwear</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
 
-async function fetchAndRender() {
-    try {
-        const res = await fetch('/api/products');
-        if (!res.ok) return;
-        const data = await res.json();
-        renderProducts(Array.isArray(data) ? data : []);
-    } catch (e) {
-        console.error('Failed to fetch products', e);
-    }
-}
-/* ✅ ADD THIS HERE */
-function buyNow(name, price) {
-    fetch('/buy_now', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, price })
-    })
-    .then(() => {
-        window.location.href = '/payment';
-    })
-    .catch(err => console.error(err));
-}
+    <section class="section" id="shop" aria-labelledby="shop-heading">
+      <div class="shell">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Curated for now</p>
+            <h2 id="shop-heading">New & noteworthy</h2>
+            <p>Seasonless pieces with just enough distinction.</p>
+          </div>
+        </div>
 
-document.addEventListener('DOMContentLoaded', () => {
-    fetchAndRender();
-    setInterval(fetchAndRender, 5000);
-});
+        <div class="shop-tools">
+          <div class="filter-chips" id="filterChips" aria-label="Filter products"></div>
+          <span class="results-copy" id="resultsCopy"></span>
+          <label class="sr-only" for="productSort">Sort products</label>
+          <select class="sort-select" id="productSort">
+            <option value="featured">Sort: Featured</option>
+            <option value="newest">Newest first</option>
+            <option value="price-low">Price: Low to high</option>
+            <option value="price-high">Price: High to low</option>
+            <option value="rating">Highest rated</option>
+          </select>
+        </div>
 
+        <div class="product-grid" id="productGrid">
+          {% for product in products %}
+          <article class="product-card" data-product-index="{{ loop.index0 }}">
+            <div class="product-media">
+              <img src="{{ product.imageUrl }}" alt="{{ product.name }}" loading="lazy">
+              {% if product.badge %}<span class="product-badge">{{ product.badge }}</span>{% endif %}
+              <button class="wishlist-btn" type="button" data-wishlist-index="{{ loop.index0 }}" aria-label="Save {{ product.name }}">
+                <i data-lucide="heart"></i>
+              </button>
+              <button class="quick-view-btn" type="button" data-quick-view="{{ loop.index0 }}">Quick view</button>
+            </div>
+            <div class="product-info">
+              <div class="product-meta">
+                <span>{{ product.category }}</span>
+                <span class="rating"><i data-lucide="star"></i> {{ product.rating }}</span>
+              </div>
+              <h3 class="product-name">{{ product.name }}</h3>
+              <div class="product-price">
+                <span>₹{{ "{:,.0f}".format(product.price) }}</span>
+                {% if product.compareAt %}<s>₹{{ "{:,.0f}".format(product.compareAt) }}</s>{% endif %}
+              </div>
+              <div class="product-card-actions">
+                <button class="btn add-cart-btn" type="button" data-add-cart="{{ loop.index0 }}">Add to bag</button>
+                <button class="btn buy-now-btn" type="button" data-buy-now="{{ loop.index0 }}" aria-label="Buy {{ product.name }} now">
+                  <i data-lucide="zap"></i>
+                </button>
+              </div>
+            </div>
+          </article>
+          {% else %}
+          <div class="empty-products">
+            <i data-lucide="search-x"></i>
+            <h3>No pieces found</h3>
+            <p>Try a different search or view the complete collection.</p>
+            <a href="/" class="btn btn-outline">Clear search</a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
 
-document.addEventListener('DOMContentLoaded', () => {
-    fetchAndRender();
-    setInterval(fetchAndRender, 5000);
-});
+    <section class="story-grid" id="story" aria-labelledby="story-heading">
+      <div class="story-image">
+        <img src="/static/images/boutique.jpg" alt="Warmly lit premium clothing boutique" loading="lazy">
+      </div>
+      <div class="story-copy">
+        <p class="eyebrow">The StyleAccess standard</p>
+        <h2 id="story-heading">Fewer pieces. Better choices.</h2>
+        <p>We believe a wardrobe should work hard without looking like it tries too hard. Every StyleAccess piece is chosen for its hand-feel, honest construction and ability to stay relevant beyond a season.</p>
+        <a href="/?view=categories" class="btn btn-light">Discover our approach <i data-lucide="arrow-right"></i></a>
+        <div class="story-values">
+          <div><strong>14 days</strong><span>Easy returns</span></div>
+          <div><strong>Quality</strong><span>Checked by hand</span></div>
+          <div><strong>India</strong><span>Made & curated</span></div>
+        </div>
+      </div>
+    </section>
 
-</script>
+    <section class="quote-section" aria-label="Customer testimonial">
+      <p class="eyebrow">Worn and recommended</p>
+      <blockquote>“The rare kind of clothing that earns compliments without asking for attention.”</blockquote>
+      <cite>Arjun Mehta · Verified customer, Mumbai</cite>
+    </section>
+  </main>
+
+  {% elif view == 'categories' %}
+  <main class="page-main">
+    <div class="shell">
+      <div class="page-heading">
+        <p class="eyebrow">Shop the wardrobe</p>
+        <h1>Collections</h1>
+        <p>Four considered edits for workdays, weekends and everything between.</p>
+      </div>
+      <div class="category-directory">
+        <a class="category-tile" href="/#shop" data-category-link="Tailoring">
+          <img src="/static/images/regent-blazer.jpg" alt="Tailored menswear" loading="lazy">
+          <div class="category-tile-content"><p class="eyebrow">The formal edit</p><h2>Tailoring</h2><p>Blazers and trousers with an easy, modern line.</p></div>
+        </a>
+        <a class="category-tile" href="/#shop" data-category-link="Shirts">
+          <img src="/static/images/portofino-shirt.jpg" alt="Premium men's shirts" loading="lazy">
+          <div class="category-tile-content"><p class="eyebrow">Everyday foundations</p><h2>Shirting</h2><p>Oxford, linen and softly structured essentials.</p></div>
+        </a>
+        <a class="category-tile" href="/#shop" data-category-link="Outerwear">
+          <img src="/static/images/belgravia-coat.jpg" alt="Refined outerwear" loading="lazy">
+          <div class="category-tile-content"><p class="eyebrow">The finishing layer</p><h2>Outerwear</h2><p>Coats and jackets designed to outlast the weather.</p></div>
+        </a>
+        <a class="category-tile" href="/#shop" data-category-link="Knitwear">
+          <img src="/static/images/neutral-rack.jpg" alt="Neutral wardrobe essentials" loading="lazy">
+          <div class="category-tile-content"><p class="eyebrow">Softly spoken</p><h2>Knitwear</h2><p>Fine-gauge layers for effortless comfort.</p></div>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  {% elif view == 'account' %}
+  <main class="page-main">
+    <div class="shell">
+      <div class="page-heading">
+        <p class="eyebrow">Welcome back</p>
+        <h1>My account</h1>
+      </div>
+      <div class="account-layout">
+        <aside class="account-card">
+          <div class="account-avatar">{{ user.name[0]|upper }}</div>
+          <h2>{{ user.name }}</h2>
+          <p>{{ user.email }}</p>
+          <nav class="account-nav" aria-label="Account navigation">
+            <a href="#orders"><i data-lucide="package-check"></i> My orders</a>
+            <a href="/" id="accountWishlist"><i data-lucide="heart"></i> Saved pieces</a>
+            <a href="/#shop"><i data-lucide="shopping-bag"></i> Continue shopping</a>
+            <a href="/logout"><i data-lucide="log-out"></i> Sign out</a>
+          </nav>
+        </aside>
+        <section class="account-content" id="orders">
+          {% if request.args.get('order') == 'success' %}
+          <div class="success-banner">
+            <i data-lucide="circle-check-big"></i>
+            <div><strong>Your order is confirmed.</strong><p>We’ll send delivery updates to {{ user.email }}.</p></div>
+          </div>
+          {% endif %}
+          <h2>Order history</h2>
+          {% if orders %}
+            {% for order in orders %}
+            <article class="order-card">
+              <div class="order-head">
+                <span>Order #{{ order._id[-8:]|upper }} · {{ order.created_at[:10] if order.created_at else 'Recently placed' }}</span>
+                <span class="order-status">{{ order.status }}</span>
+              </div>
+              <div class="order-body">
+                {% for item in order['items'] %}
+                <p><span>{{ item.name }} × {{ item.qty }}</span><strong>₹{{ "{:,.0f}".format(item.price * item.qty) }}</strong></p>
+                {% endfor %}
+                <p><strong>Total paid</strong><strong>₹{{ "{:,.0f}".format(order.total) }}</strong></p>
+              </div>
+            </article>
+            {% endfor %}
+          {% else %}
+          <div class="empty-state">
+            <i data-lucide="package-open"></i>
+            <p>You haven’t placed an order yet.</p>
+            <a href="/#shop" class="btn btn-outline">Explore the collection</a>
+          </div>
+          {% endif %}
+        </section>
+      </div>
+    </div>
+  </main>
+
+  {% elif view == 'cart' %}
+  <main class="page-main">
+    <div class="shell">
+      <div class="page-heading"><p class="eyebrow">Your selection</p><h1>Shopping bag</h1></div>
+      {% if cart_summary['items'] %}
+      <div class="account-content">
+        {% for item in cart_summary['items'] %}
+        <div class="summary-item">
+          <img src="{{ item.imageUrl }}" alt="{{ item.name }}">
+          <div><h3>{{ item.name }}</h3><p>{{ item.category }} · Quantity {{ item.qty }}</p></div>
+          <strong>₹{{ "{:,.0f}".format(item.price * item.qty) }}</strong>
+        </div>
+        {% endfor %}
+        <div class="summary-row total"><span>Total</span><strong>₹{{ "{:,.0f}".format(total) }}</strong></div>
+        <a href="/checkout_cart" class="btn btn-block">Proceed to secure checkout</a>
+      </div>
+      {% else %}
+      <div class="empty-state"><i data-lucide="shopping-bag"></i><p>Your bag is waiting for something special.</p><a href="/#shop" class="btn btn-outline">Shop the collection</a></div>
+      {% endif %}
+    </div>
+  </main>
+  {% endif %}
+
+  <section class="newsletter" aria-labelledby="newsletter-title">
+    <p class="eyebrow">Private list</p>
+    <h2 id="newsletter-title">Notes on getting dressed well.</h2>
+    <p>New arrivals, thoughtful style advice and private access—sent occasionally.</p>
+    <form class="newsletter-form" id="newsletterForm">
+      <label class="sr-only" for="newsletterEmail">Email address</label>
+      <input id="newsletterEmail" type="email" placeholder="Your email address" required>
+      <button type="submit" class="btn">Join the list</button>
+    </form>
+  </section>
+
+  <footer class="site-footer">
+    <div class="shell">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="brand">StyleAccess<small>Considered menswear</small></a>
+          <p>Timeless clothing with a point of view, selected for modern life in India.</p>
+          <div class="social-links">
+            <a href="#" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i data-lucide="facebook"></i></a>
+            <a href="#" aria-label="Pinterest"><i data-lucide="pin"></i></a>
+          </div>
+        </div>
+        <div class="footer-column"><h3>Shop</h3><a href="/#shop">New arrivals</a><a href="/#shop">Tailoring</a><a href="/#shop">Shirts</a><a href="/#shop">Outerwear</a></div>
+        <div class="footer-column"><h3>Client care</h3><a href="#">Delivery & returns</a><a href="#">Size guide</a><a href="#">Care guide</a><a href="#">Contact us</a></div>
+        <div class="footer-column"><h3>About</h3><a href="/#story">Our story</a><a href="#">Journal</a><a href="#">Responsibility</a><a href="#">Careers</a></div>
+      </div>
+      <div class="footer-bottom"><span>© 2026 StyleAccess. All rights reserved.</span><span>Privacy · Terms · Accessibility</span></div>
+    </div>
+  </footer>
+
+  <div class="overlay" id="overlay"></div>
+
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true" aria-labelledby="cartTitle">
+    <div class="drawer-head">
+      <h2 id="cartTitle">Your bag <span id="drawerCount">({{ cart_summary.count }})</span></h2>
+      <button class="icon-btn" id="cartClose" type="button" aria-label="Close shopping bag"><i data-lucide="x"></i></button>
+    </div>
+    <div class="drawer-body" id="cartItems"></div>
+    <div class="drawer-footer" id="cartFooter" hidden>
+      <div class="drawer-total"><span>Subtotal</span><strong id="cartTotal">₹{{ "{:,.0f}".format(total) }}</strong></div>
+      <p class="drawer-note">Taxes included. Delivery is calculated at checkout.</p>
+      <a href="/checkout_cart" class="btn btn-block">Secure checkout <i data-lucide="arrow-right"></i></a>
+    </div>
+  </aside>
+
+  <section class="modal" id="quickViewModal" aria-hidden="true" aria-labelledby="quickViewName">
+    <button class="icon-btn modal-close" id="quickViewClose" type="button" aria-label="Close quick view"><i data-lucide="x"></i></button>
+    <div class="quick-view-grid">
+      <div class="quick-view-image"><img id="quickViewImage" src="" alt=""></div>
+      <div class="quick-view-content">
+        <p class="eyebrow" id="quickViewCategory"></p>
+        <h2 id="quickViewName"></h2>
+        <div class="quick-price" id="quickViewPrice"></div>
+        <div class="rating"><i data-lucide="star"></i> <span id="quickViewRating"></span> · Hand checked</div>
+        <p class="quick-description" id="quickViewDescription"></p>
+        <div class="size-label"><span>Select size</span><button class="text-link" type="button">Size guide</button></div>
+        <div class="size-options" id="sizeOptions"></div>
+        <button class="btn btn-block" id="quickAddBtn" type="button">Add to bag</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"><i data-lucide="check-circle"></i><span id="toastText"></span></div>
+  <script id="initialProducts" type="application/json">{{ products|tojson }}</script>
+</body>
 </html>

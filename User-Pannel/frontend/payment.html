@@ -1,208 +1,149 @@
-<!DOCTYPE html>
-
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-<title>Checkout - StyleAccess</title>
-
-<style>
-body {
-    font-family: 'Inter', Arial;
-    background: #f1f5f9;
-    margin: 0;
-}
-
-/* Navbar */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 30px;
-    background: white;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-.logo {
-    font-size: 22px;
-    font-weight: bold;
-    color: #ff6a00;
-}
-
-.menu a {
-    margin-left: 15px;
-    text-decoration: none;
-    color: #333;
-}
-
-/* Layout */
-.container {
-    padding: 30px;
-}
-
-.two-col {
-    display: flex;
-    gap: 20px;
-}
-
-.col {
-    flex: 1;
-}
-
-/* Card */
-.section-box {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-
-/* Inputs */
-input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    margin-top: 5px;
-}
-
-label {
-    margin-top: 10px;
-    display: block;
-    color: #444;
-}
-
-/* Button */
-.btn {
-    background: #ff6a00;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 15px;
-    font-weight: bold;
-}
-
-/* Summary */
-.summary p {
-    margin: 8px 0;
-}
-
-/* Payment options */
-.payment-methods {
-    margin-top: 10px;
-}
-
-.payment-methods label {
-    margin-right: 15px;
-}
-
-/* Responsive */
-@media(max-width:768px) {
-    .two-col {
-        flex-direction: column;
-    }
-}
-</style>
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#162018">
+  <meta name="description" content="Secure checkout at StyleAccess.">
+  <title>Secure checkout — StyleAccess</title>
+  <link rel="stylesheet" href="/static/site.css">
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+  <script src="/static/checkout.js" defer></script>
 </head>
-
-<body>
-
-<div class="navbar">
-    <div class="logo">StyleAccess</div>
-    <div class="menu">
-        <a href="/">Home</a>
-        <a href="/?view=cart">Cart</a>
+<body class="checkout-body">
+  <header class="checkout-header">
+    <div class="checkout-header-inner shell">
+      <a href="/" class="brand">StyleAccess<small>Considered menswear</small></a>
+      <div class="secure-label"><i data-lucide="lock-keyhole"></i><span>Secure encrypted checkout</span></div>
     </div>
-</div>
+  </header>
 
-<div class="container">
+  <main class="checkout-shell">
+    <div class="checkout-form-column">
+      <div class="checkout-title">
+        <p class="eyebrow">Almost yours</p>
+        <h1>Checkout</h1>
+        <p>Complete your details below. Your order is reserved for the next 15 minutes.</p>
+      </div>
 
-<h2>Checkout</h2>
+      {% if checkout_error %}
+      <div class="checkout-error"><i data-lucide="circle-alert"></i><span>{{ checkout_error }}</span></div>
+      {% endif %}
 
-<div class="two-col">
+      <form action="/place_order" method="post" id="checkoutForm">
+        <section class="checkout-card" aria-labelledby="delivery-heading">
+          <h2 class="checkout-card-title" id="delivery-heading"><span>1</span> Delivery details</h2>
+          <div class="form-grid">
+            <div class="field field-full">
+              <label for="fullName">Full name</label>
+              <input id="fullName" type="text" name="full_name" value="{{ user.name if user else '' }}" autocomplete="name" required>
+            </div>
+            <div class="field field-full">
+              <label for="addressLine1">Address</label>
+              <input id="addressLine1" type="text" name="line1" placeholder="House number, street and area" autocomplete="address-line1" required>
+            </div>
+            <div class="field field-full">
+              <label for="addressLine2">Apartment, suite or landmark <span style="font-weight:400;color:#6f756f">(optional)</span></label>
+              <input id="addressLine2" type="text" name="line2" placeholder="Apartment, floor or nearby landmark" autocomplete="address-line2">
+            </div>
+            <div class="field">
+              <label for="city">City</label>
+              <input id="city" type="text" name="city" autocomplete="address-level2" required>
+            </div>
+            <div class="field">
+              <label for="state">State</label>
+              <select id="state" name="state" autocomplete="address-level1" required>
+                <option value="">Select state</option>
+                <option>Andhra Pradesh</option><option>Delhi</option><option>Goa</option><option>Gujarat</option>
+                <option>Haryana</option><option>Karnataka</option><option>Kerala</option><option>Madhya Pradesh</option>
+                <option>Maharashtra</option><option>Punjab</option><option>Rajasthan</option><option>Tamil Nadu</option>
+                <option>Telangana</option><option>Uttar Pradesh</option><option>West Bengal</option><option>Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="postalCode">PIN code</label>
+              <input id="postalCode" type="text" name="zip" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="6-digit PIN" autocomplete="postal-code" required>
+            </div>
+            <div class="field">
+              <label for="phone">Mobile number</label>
+              <input id="phone" type="tel" name="phone" inputmode="tel" pattern="[0-9 +()-]{10,15}" placeholder="For delivery updates" autocomplete="tel" required>
+            </div>
+          </div>
+        </section>
 
-<!-- LEFT -->
+        <section class="checkout-card" aria-labelledby="payment-heading">
+          <h2 class="checkout-card-title" id="payment-heading"><span>2</span> Payment method</h2>
+          <div class="payment-options">
+            <label class="payment-option">
+              <input type="radio" name="payment_method" value="upi" checked>
+              <span class="payment-option-icon"><i data-lucide="smartphone"></i></span>
+              <span class="payment-option-copy"><strong>UPI</strong><span>Pay using any UPI app</span></span>
+            </label>
+            <label class="payment-option">
+              <input type="radio" name="payment_method" value="card">
+              <span class="payment-option-icon"><i data-lucide="credit-card"></i></span>
+              <span class="payment-option-copy"><strong>Credit or debit card</strong><span>Visa, Mastercard and RuPay</span></span>
+            </label>
+            <label class="payment-option">
+              <input type="radio" name="payment_method" value="cod">
+              <span class="payment-option-icon"><i data-lucide="hand-coins"></i></span>
+              <span class="payment-option-copy"><strong>Cash on delivery</strong><span>Pay when your order arrives</span></span>
+            </label>
+          </div>
 
-<div class="col">
-<div class="section-box">
+          <div class="payment-fields" id="upiFields">
+            <div class="field">
+              <label for="upiId">UPI ID</label>
+              <input id="upiId" type="text" name="upi_id" placeholder="name@bank" autocomplete="off" required>
+            </div>
+          </div>
 
-<h3>Shipping Address</h3>
+          <div class="payment-fields" id="cardFields" hidden>
+            <div class="form-grid">
+              <div class="field field-full">
+                <label for="cardNumber">Card number</label>
+                <input id="cardNumber" type="text" name="card_number" inputmode="numeric" maxlength="19" placeholder="0000 0000 0000 0000" autocomplete="cc-number">
+              </div>
+              <div class="field">
+                <label for="cardExpiry">Expiry</label>
+                <input id="cardExpiry" type="text" inputmode="numeric" maxlength="5" placeholder="MM/YY" autocomplete="cc-exp">
+              </div>
+              <div class="field">
+                <label for="cardCvv">CVV</label>
+                <input id="cardCvv" type="password" inputmode="numeric" maxlength="4" placeholder="•••" autocomplete="cc-csc">
+              </div>
+            </div>
+          </div>
 
-<form action="/place_order" method="POST">
+          <div class="payment-fields" id="codFields" hidden>
+            <p style="margin:0;color:#596158;font-size:12px">Please keep the exact amount ready. Our delivery partner may also offer a UPI option at the door.</p>
+          </div>
+        </section>
 
-<label>Full Name</label> <input type="text" name="full_name" required>
+        <button type="submit" class="btn btn-block" id="placeOrderBtn">Place order · ₹{{ "{:,.0f}".format(checkout['total']) }} <i data-lucide="arrow-right"></i></button>
+        <div class="checkout-guarantee"><i data-lucide="shield-check"></i> Your payment details are protected and never stored.</div>
+      </form>
+    </div>
 
-<label>Address</label> <input type="text" name="line1" required>
-
-<label>City</label> <input type="text" name="city" required>
-
-<label>State</label> <input type="text" name="state" required>
-
-<label>ZIP</label> <input type="text" name="zip" required>
-
-<label>Phone</label> <input type="text" name="phone" required>
-
-<h3>Payment Method</h3>
-
-<div class="payment-methods">
-<label><input type="radio" name="payment_method" value="upi" checked> UPI</label>
-<label><input type="radio" name="payment_method" value="cod"> Cash on Delivery</label>
-<label><input type="radio" name="payment_method" value="card"> Card</label>
-</div>
-
-<div id="pm-upi">
-<label>UPI ID</label>
-<input type="text" name="upi_id">
-</div>
-
-<div id="pm-card" style="display:none;">
-<label>Card Number</label>
-<input type="text" name="card_number">
-</div>
-
-<button type="submit" class="btn">Place Order</button>
-
-</form>
-
-</div>
-</div>
-
-<!-- RIGHT -->
-
-<div class="col">
-<div class="section-box">
-
-<h3>Order Summary</h3>
-
-<div class="summary">
-
-{% for item in checkout['items'] %}
-
-<p><b>{{ item.name }}</b> - ₹{{ item.price }} x {{ item.qty }}</p>
-{% endfor %}
-
-<hr>
-
-<p><b>Total:</b> ₹{{ checkout['total'] }}</p>
-
-</div>
-
-</div>
-</div>
-
-</div>
-
-</div>
-
-<script>
-document.querySelectorAll('input[name="payment_method"]').forEach(r => {
-    r.addEventListener('change', e => {
-        document.getElementById('pm-upi').style.display = e.target.value === 'upi' ? 'block' : 'none';
-        document.getElementById('pm-card').style.display = e.target.value === 'card' ? 'block' : 'none';
-    });
-});
-</script>
-
+    <aside class="checkout-summary-column">
+      <section class="checkout-card summary-card" aria-labelledby="summary-heading">
+        <h2 class="checkout-card-title" id="summary-heading">Order summary</h2>
+        {% for item in checkout['items'] %}
+        <article class="summary-item">
+          <img src="{{ item.imageUrl }}" alt="{{ item.name }}">
+          <div><h3>{{ item.name }}</h3><p>{{ item.category or 'StyleAccess' }} · Qty {{ item.qty }}</p></div>
+          <strong>₹{{ "{:,.0f}".format(item.price * item.qty) }}</strong>
+        </article>
+        {% endfor %}
+        <div class="summary-totals">
+          <div class="summary-row"><span>Subtotal</span><strong>₹{{ "{:,.0f}".format(checkout['total']) }}</strong></div>
+          <div class="summary-row"><span>Express delivery</span><strong>Complimentary</strong></div>
+          <div class="summary-row"><span>Taxes</span><strong>Included</strong></div>
+          <div class="summary-row total"><span>Total</span><strong>₹{{ "{:,.0f}".format(checkout['total']) }}</strong></div>
+        </div>
+        <a href="/" class="text-link"><i data-lucide="arrow-left"></i> Return to the shop</a>
+      </section>
+    </aside>
+  </main>
 </body>
 </html>
