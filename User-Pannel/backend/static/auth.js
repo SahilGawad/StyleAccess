@@ -4,6 +4,8 @@
   const registerPanel = document.getElementById('registerPanel');
   const heading = document.getElementById('authHeading');
   const subheading = document.getElementById('authSubheading');
+  const requestedPath = new URLSearchParams(window.location.search).get('next');
+  const safeNextPath = requestedPath?.startsWith('/') && !requestedPath.startsWith('//') ? requestedPath : '/';
 
   function refreshIcons() {
     if (window.lucide) window.lucide.createIcons({ attrs: { 'aria-hidden': 'true' } });
@@ -20,10 +22,10 @@
     registerPanel.classList.toggle('active', !loginActive);
     loginPanel.hidden = !loginActive;
     registerPanel.hidden = loginActive;
-    heading.textContent = loginActive ? 'Welcome back.' : 'Join StyleAccess.';
+    heading.innerHTML = loginActive ? 'Welcome<br><em>back.</em>' : 'Your wardrobe,<br><em>considered.</em>';
     subheading.textContent = loginActive
-      ? 'Sign in to see your bag, saved pieces and order history.'
-      : 'Create an account for a more considered shopping experience.';
+      ? 'Return to your private wardrobe, saved pieces and order history.'
+      : 'Create your account for private access, personal service and a more considered experience.';
     clearAlert('loginAlert');
     clearAlert('registerAlert');
   }
@@ -76,6 +78,22 @@
     document.getElementById('rememberEmail').checked = true;
   }
 
+  const registerPassword = document.getElementById('registerPassword');
+  const passwordMeter = document.getElementById('passwordMeter');
+  const passwordStrength = document.getElementById('passwordStrength');
+  registerPassword?.addEventListener('input', () => {
+    const value = registerPassword.value;
+    let score = 0;
+    if (value.length >= 8) score += 1;
+    if (/[A-Z]/.test(value) && /[a-z]/.test(value)) score += 1;
+    if (/\d/.test(value)) score += 1;
+    if (/[^A-Za-z0-9]/.test(value) || value.length >= 12) score += 1;
+    passwordMeter.dataset.score = String(score);
+    passwordStrength.textContent = !value
+      ? 'Use 8 or more characters'
+      : ['Too short', 'Keep going', 'Good password', 'Strong password'][Math.max(0, score - 1)];
+  });
+
   document.getElementById('loginForm').addEventListener('submit', async (event) => {
     event.preventDefault();
     clearAlert('loginAlert');
@@ -91,7 +109,7 @@
       const user = await request('/api/login', { email, password });
       if (document.getElementById('rememberEmail').checked) localStorage.setItem('styleaccess-login-email', email);
       else localStorage.removeItem('styleaccess-login-email');
-      window.location.replace(user.role === 'admin' ? '/admin' : '/');
+      window.location.replace(user.role === 'admin' ? '/admin' : safeNextPath);
     } catch (error) {
       showAlert('loginAlert', error.message);
       setLoading(button, false, 'Sign in');
@@ -129,7 +147,7 @@
       const response = await fetch('/api/me', { credentials: 'same-origin' });
       if (!response.ok) return;
       const user = await response.json();
-      window.location.replace(user.role === 'admin' ? '/admin' : '/');
+      window.location.replace(user.role === 'admin' ? '/admin' : safeNextPath);
     } catch {
       // The page remains available when there is no active session.
     }

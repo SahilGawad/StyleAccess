@@ -413,6 +413,22 @@
     });
   }
 
+  function setupTestimonials() {
+    if (!window.Swiper || !document.querySelector('.testimonial-swiper')) return;
+    new window.Swiper('.testimonial-swiper', {
+      loop: true,
+      speed: 700,
+      autoHeight: true,
+      keyboard: { enabled: true },
+      autoplay: { delay: 5200, disableOnInteraction: false },
+      pagination: { el: '.testimonial-swiper .swiper-pagination', type: 'fraction' },
+      navigation: {
+        nextEl: '.testimonial-swiper .quote-next',
+        prevEl: '.testimonial-swiper .quote-prev',
+      },
+    });
+  }
+
   document.addEventListener('click', (event) => {
     const indexedWishlist = event.target.closest('[data-wishlist-index]');
     const indexedQuickView = event.target.closest('[data-quick-view]');
@@ -444,6 +460,7 @@
   setupCrossPageLinks();
   setupQuickView();
   setupNewsletter();
+  setupTestimonials();
   updateWishlistCount();
   refreshIcons();
 })();

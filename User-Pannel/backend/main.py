@@ -230,7 +230,8 @@ def login_required(function):
     @wraps(function)
     def wrapper(*args, **kwargs):
         if 'user_id' not in session:
-            return redirect(url_for('login_page'))
+            next_path = request.full_path.rstrip('?') if request.query_string else request.path
+            return redirect(url_for('login_page', next=next_path))
         return function(*args, **kwargs)
     return wrapper
 
@@ -316,7 +317,6 @@ def get_products():
 
 
 @app.route('/api/cart')
-@login_required
 def cart_api():
     return jsonify(get_cart_summary())
 
@@ -425,10 +425,11 @@ def admin_dashboard():
 
 
 @app.route('/')
-@login_required
 def home():
     session.setdefault('cart', {})
     view = request.args.get('view', 'home')
+    if view == 'account' and 'user_id' not in session:
+        return redirect(url_for('login_page', next=request.full_path.rstrip('?')))
     search_query = request.args.get('search', '').strip().lower()
     products = get_products_from_db()
     if search_query:
@@ -461,7 +462,6 @@ def home():
 
 
 @app.route('/add_to_cart', methods=['POST'])
-@login_required
 def add_to_cart():
     data = request.get_json(silent=True) if request.is_json else request.form
     name = str((data or {}).get('name', '')).strip()
@@ -481,7 +481,6 @@ def add_to_cart():
 
 
 @app.route('/update_cart', methods=['POST'])
-@login_required
 def update_cart():
     data = request.get_json(silent=True) or request.form
     name = str(data.get('name', '')).strip()
@@ -509,7 +508,6 @@ def update_cart():
 
 
 @app.route('/buy_now', methods=['POST'])
-@login_required
 def buy_now():
     data = request.get_json(silent=True) if request.is_json else request.form
     name = str((data or {}).get('name', '')).strip()
@@ -551,7 +549,6 @@ def payment_page():
 
 
 @app.route('/remove_item', methods=['POST'])
-@login_required
 def remove_item():
     data = request.get_json(silent=True) if request.is_json else request.form
     name = str((data or {}).get('name', '')).strip()
