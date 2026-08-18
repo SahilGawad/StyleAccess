@@ -7,23 +7,27 @@
   <meta name="description" content="Sign in or create your StyleAccess account.">
   <title>Welcome — StyleAccess</title>
   <link rel="stylesheet" href="/static/site.css">
+  <link rel="stylesheet" href="/static/atelier.css">
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
   <script src="/static/auth.js" defer></script>
 </head>
 <body class="auth-body">
   <main class="auth-panel">
-    <a href="/" class="brand" aria-label="StyleAccess home">StyleAccess<small>Considered menswear</small></a>
+    <header class="auth-panel-head">
+      <a href="/" class="brand" aria-label="StyleAccess home">StyleAccess<small>Private wardrobe</small></a>
+      <a href="/" class="auth-back-link"><i data-lucide="arrow-up-right"></i><span>Visit boutique</span></a>
+    </header>
 
     <div class="auth-content">
       <div class="auth-intro">
-        <p class="eyebrow">Your private wardrobe</p>
-        <h1 id="authHeading">Welcome back.</h1>
-        <p id="authSubheading">Sign in to see your bag, saved pieces and order history.</p>
+        <div class="auth-kicker"><span></span> Member access</div>
+        <h1 id="authHeading">Welcome<br><em>back.</em></h1>
+        <p id="authSubheading">Return to your private wardrobe, saved pieces and order history.</p>
       </div>
 
       <div class="auth-tabs" role="tablist" aria-label="Account access">
-        <button class="auth-tab active" type="button" role="tab" aria-selected="true" aria-controls="loginPanel" data-auth-tab="login">Sign in</button>
-        <button class="auth-tab" type="button" role="tab" aria-selected="false" aria-controls="registerPanel" data-auth-tab="register">Create account</button>
+        <button class="auth-tab active" type="button" role="tab" aria-selected="true" aria-controls="loginPanel" data-auth-tab="login"><span>01</span> Sign in</button>
+        <button class="auth-tab" type="button" role="tab" aria-selected="false" aria-controls="registerPanel" data-auth-tab="register"><span>02</span> Create account</button>
       </div>
 
       <section class="auth-form-panel active" id="loginPanel" role="tabpanel">
@@ -45,7 +49,7 @@
           </div>
           <div class="form-row-between">
             <label class="check-row"><input type="checkbox" id="rememberEmail"> Remember my email</label>
-            <a href="mailto:care@styleaccess.in" class="text-link">Need help?</a>
+            <a href="mailto:care@styleaccess.in" class="text-link">Forgot password?</a>
           </div>
           <div class="form-alert" id="loginAlert" role="alert"></div>
           <button class="btn btn-block" type="submit" id="loginButton">Sign in <i data-lucide="arrow-right"></i></button>
@@ -75,8 +79,12 @@
               <input id="registerPassword" type="password" autocomplete="new-password" placeholder="At least 8 characters" minlength="8" required>
               <button class="password-toggle" type="button" data-password-toggle="registerPassword" aria-label="Show password"><i data-lucide="eye"></i></button>
             </div>
+            <div class="password-meter" id="passwordMeter" aria-live="polite">
+              <span></span><span></span><span></span><span></span>
+              <small id="passwordStrength">Use 8 or more characters</small>
+            </div>
           </div>
-          <label class="check-row" style="margin:4px 0 18px;color:#6f756f;font-size:11px">
+          <label class="check-row auth-terms">
             <input type="checkbox" id="termsAccepted" required>
             <span>I agree to the privacy policy and terms of service.</span>
           </label>
@@ -84,6 +92,11 @@
           <button class="btn btn-block" type="submit" id="registerButton">Create my account <i data-lucide="arrow-right"></i></button>
         </form>
       </section>
+
+      <div class="auth-service-note">
+        <i data-lucide="shield-check"></i>
+        <span><strong>Private by design.</strong> Your details stay secure and are never shared.</span>
+      </div>
     </div>
 
     <p class="auth-footnote">By continuing, you agree to StyleAccess privacy and cookie policies.</p>
@@ -91,10 +104,19 @@
 
   <aside class="auth-visual" aria-label="StyleAccess collection">
     <img src="/static/images/regent-blazer.jpg" alt="Man wearing timeless tailoring">
+    <div class="auth-visual-head">
+      <span>StyleAccess / Atelier 01</span>
+      <span>Est. MMXXVI</span>
+    </div>
     <div class="auth-visual-copy">
-      <p class="eyebrow" style="color:#e0c495">The private list</p>
-      <h2>A better wardrobe begins with fewer, finer pieces.</h2>
-      <p>Save favourites, track every order and receive first access to limited seasonal edits.</p>
+      <p class="eyebrow">The private list</p>
+      <h2>Dress with intention.<br><em>Live with ease.</em></h2>
+      <p>Enduring menswear, selected with restraint and made personal through considered service.</p>
+    </div>
+    <div class="auth-privileges" aria-label="Member benefits">
+      <div><i data-lucide="sparkles"></i><span>Early collection<br>access</span></div>
+      <div><i data-lucide="scissors"></i><span>Complimentary<br>alterations</span></div>
+      <div><i data-lucide="package-check"></i><span>Effortless<br>returns</span></div>
     </div>
   </aside>
 </body>

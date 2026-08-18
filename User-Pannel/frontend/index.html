@@ -8,15 +8,19 @@
   <title>{% if view == 'account' %}My account{% elif view == 'categories' %}Collections{% else %}StyleAccess — Considered menswear{% endif %}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@14.0.7/swiper-bundle.min.css">
   <link rel="stylesheet" href="/static/site.css">
+  <link rel="stylesheet" href="/static/atelier.css">
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@14.0.7/swiper-bundle.min.js" defer></script>
+  <script src="/static/atelier-ui.js" defer></script>
   <script src="/static/storefront.js" defer></script>
 </head>
 <body data-view="{{ view }}">
   <div class="announcement">
-    <span>Complimentary alterations</span>
-    Free express delivery across India on orders above ₹5,000
-    <span>Easy 14-day returns</span>
+    <span>Private client service</span>
+    <strong>Complimentary express delivery across India on orders above ₹5,000</strong>
+    <span>14-day considered returns</span>
   </div>
 
   <header class="site-header">
@@ -69,18 +73,27 @@
   <main>
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-copy">
-        <p class="eyebrow">The new season · 2026</p>
-        <h1 id="hero-title">Quiet confidence, <em>well made.</em></h1>
-        <p>A considered wardrobe of elevated essentials, natural textures and enduring silhouettes—designed to feel right from the first wear.</p>
+        <div class="hero-edition"><span>Volume 01</span><span>Autumn / Winter 2026</span></div>
+        <p class="eyebrow">The private wardrobe</p>
+        <h1 id="hero-title">The art of<br><em>being well dressed.</em></h1>
+        <p>Precise tailoring, tactile natural cloth and enduring silhouettes—assembled into a wardrobe that speaks softly and carries presence.</p>
         <div class="hero-actions">
           <a href="#shop" class="btn">Shop new arrivals <i data-lucide="arrow-right"></i></a>
           <a href="/?view=categories" class="btn btn-outline">Explore collections</a>
         </div>
-        <div class="hero-note"><i data-lucide="scissors"></i> Complimentary first alteration on tailored pieces</div>
+        <div class="hero-note"><i data-lucide="scissors"></i> Your first alteration is on the house</div>
+        <div class="hero-signature"><span>SA</span><p>Selected in India<br>Finished for you</p></div>
       </div>
       <div class="hero-image">
         <img src="/static/images/belgravia-coat.jpg" alt="Man wearing a refined camel overcoat" fetchpriority="high">
-        <span class="hero-caption">The Regent collection · Limited edition</span>
+        <div class="hero-image-frame"></div>
+        <div class="hero-capsule">
+          <span class="hero-capsule-number">01</span>
+          <p>Editors' selection</p>
+          <strong>The Belgravia Coat</strong>
+          <a href="#shop">Discover the piece <i data-lucide="arrow-up-right"></i></a>
+        </div>
+        <span class="hero-caption">Regent Collection · Bombay / London</span>
       </div>
     </section>
 
@@ -93,12 +106,16 @@
       </div>
     </div>
 
+    <div class="editorial-marquee" aria-hidden="true">
+      <div><span>Modern heirlooms</span><i></i><span>Natural cloth</span><i></i><span>Private service</span><i></i><span>Modern heirlooms</span><i></i><span>Natural cloth</span><i></i><span>Private service</span></div>
+    </div>
+
     <section class="section section-paper" aria-labelledby="collections-heading">
       <div class="shell">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Shop by mood</p>
-            <h2 id="collections-heading">The wardrobe, considered.</h2>
+            <p class="eyebrow">The house collections</p>
+            <h2 id="collections-heading">A wardrobe with<br><em>quiet authority.</em></h2>
           </div>
           <a href="/?view=categories" class="text-link">View all collections <i data-lucide="arrow-up-right"></i></a>
         </div>
@@ -136,9 +153,9 @@
       <div class="shell">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Curated for now</p>
-            <h2 id="shop-heading">New & noteworthy</h2>
-            <p>Seasonless pieces with just enough distinction.</p>
+            <p class="eyebrow">The current selection</p>
+            <h2 id="shop-heading">Objects of distinction.</h2>
+            <p>Fewer, finer pieces chosen for texture, proportion and longevity.</p>
           </div>
         </div>
 
@@ -201,10 +218,10 @@
         <img src="/static/images/boutique.jpg" alt="Warmly lit premium clothing boutique" loading="lazy">
       </div>
       <div class="story-copy">
-        <p class="eyebrow">The StyleAccess standard</p>
-        <h2 id="story-heading">Fewer pieces. Better choices.</h2>
-        <p>We believe a wardrobe should work hard without looking like it tries too hard. Every StyleAccess piece is chosen for its hand-feel, honest construction and ability to stay relevant beyond a season.</p>
-        <a href="/?view=categories" class="btn btn-light">Discover our approach <i data-lucide="arrow-right"></i></a>
+        <p class="eyebrow">The house philosophy</p>
+        <h2 id="story-heading">Luxury is the absence<br>of the unnecessary.</h2>
+        <p>StyleAccess is built on a simple belief: presence comes from precision, not excess. Every piece is judged by its cloth, construction and ability to become more personal with wear.</p>
+        <a href="/?view=categories" class="btn btn-light">Enter the house <i data-lucide="arrow-right"></i></a>
         <div class="story-values">
           <div><strong>14 days</strong><span>Easy returns</span></div>
           <div><strong>Quality</strong><span>Checked by hand</span></div>
@@ -213,10 +230,34 @@
       </div>
     </section>
 
-    <section class="quote-section" aria-label="Customer testimonial">
-      <p class="eyebrow">Worn and recommended</p>
-      <blockquote>“The rare kind of clothing that earns compliments without asking for attention.”</blockquote>
-      <cite>Arjun Mehta · Verified customer, Mumbai</cite>
+    <section class="quote-section" aria-label="Client testimonials">
+      <div class="quote-shell shell">
+        <div class="quote-heading">
+          <p class="eyebrow">Notes from our clients</p>
+          <span>Private correspondence / 01—03</span>
+        </div>
+        <div class="swiper testimonial-swiper">
+          <div class="swiper-wrapper">
+            <article class="swiper-slide testimonial-slide">
+              <blockquote>“The rare kind of clothing that earns compliments without ever asking for attention.”</blockquote>
+              <cite><span>AM</span> Arjun Mehta · Mumbai</cite>
+            </article>
+            <article class="swiper-slide testimonial-slide">
+              <blockquote>“Everything feels intentional—from the cut of the jacket to the way the order arrives.”</blockquote>
+              <cite><span>RK</span> Rohan Khanna · New Delhi</cite>
+            </article>
+            <article class="swiper-slide testimonial-slide">
+              <blockquote>“StyleAccess has made getting dressed simpler, sharper and considerably more enjoyable.”</blockquote>
+              <cite><span>VS</span> Vikram Shah · Bengaluru</cite>
+            </article>
+          </div>
+          <div class="quote-controls">
+            <button class="quote-prev" type="button" aria-label="Previous testimonial"><i data-lucide="arrow-left"></i></button>
+            <div class="swiper-pagination"></div>
+            <button class="quote-next" type="button" aria-label="Next testimonial"><i data-lucide="arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -327,8 +368,9 @@
   {% endif %}
 
   <section class="newsletter" aria-labelledby="newsletter-title">
+    <span class="newsletter-index">Private note · No. 01</span>
     <p class="eyebrow">Private list</p>
-    <h2 id="newsletter-title">Notes on getting dressed well.</h2>
+    <h2 id="newsletter-title">A private note,<br><em>occasionally.</em></h2>
     <p>New arrivals, thoughtful style advice and private access—sent occasionally.</p>
     <form class="newsletter-form" id="newsletterForm">
       <label class="sr-only" for="newsletterEmail">Email address</label>
@@ -341,7 +383,7 @@
     <div class="shell">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="/" class="brand">StyleAccess<small>Considered menswear</small></a>
+          <a href="/" class="brand">StyleAccess<small>Private wardrobe</small></a>
           <p>Timeless clothing with a point of view, selected for modern life in India.</p>
           <div class="social-links">
             <a href="#" aria-label="Instagram"><i data-lucide="instagram"></i></a>

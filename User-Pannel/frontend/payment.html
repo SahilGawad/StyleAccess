@@ -7,22 +7,25 @@
   <meta name="description" content="Secure checkout at StyleAccess.">
   <title>Secure checkout — StyleAccess</title>
   <link rel="stylesheet" href="/static/site.css">
+  <link rel="stylesheet" href="/static/atelier.css">
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+  <script src="/static/atelier-ui.js" defer></script>
   <script src="/static/checkout.js" defer></script>
 </head>
 <body class="checkout-body">
   <header class="checkout-header">
     <div class="checkout-header-inner shell">
-      <a href="/" class="brand">StyleAccess<small>Considered menswear</small></a>
+      <a href="/" class="brand">StyleAccess<small>Private wardrobe</small></a>
       <div class="secure-label"><i data-lucide="lock-keyhole"></i><span>Secure encrypted checkout</span></div>
     </div>
   </header>
 
   <main class="checkout-shell">
     <div class="checkout-form-column">
+      <div class="checkout-progress" aria-label="Checkout progress"><span class="active">Bag</span><i></i><span class="active">Details</span><i></i><span>Confirmation</span></div>
       <div class="checkout-title">
-        <p class="eyebrow">Almost yours</p>
-        <h1>Checkout</h1>
+        <p class="eyebrow">Private client checkout</p>
+        <h1>Complete your<br><em>selection.</em></h1>
         <p>Complete your details below. Your order is reserved for the next 15 minutes.</p>
       </div>
 
@@ -126,6 +129,7 @@
     </div>
 
     <aside class="checkout-summary-column">
+      <div class="checkout-summary-intro"><span>StyleAccess / Order desk</span><p>Your selection is held privately for fifteen minutes.</p></div>
       <section class="checkout-card summary-card" aria-labelledby="summary-heading">
         <h2 class="checkout-card-title" id="summary-heading">Order summary</h2>
         {% for item in checkout['items'] %}
