@@ -305,6 +305,13 @@
     const nav = document.getElementById('mainNav');
     const searchToggle = document.getElementById('searchToggle');
     const searchPanel = document.getElementById('searchPanel');
+    const scrollProgress = document.getElementById('scrollProgress');
+    const updateScrollProgress = () => {
+      if (!scrollProgress) return;
+      const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollableHeight > 0 ? (window.scrollY / scrollableHeight) * 100 : 0;
+      scrollProgress.style.width = `${Math.min(progress, 100)}%`;
+    };
     menuButton?.addEventListener('click', () => {
       const open = nav?.classList.toggle('open');
       menuButton.setAttribute('aria-expanded', String(Boolean(open)));
@@ -316,6 +323,9 @@
       searchToggle.setAttribute('aria-expanded', String(Boolean(open)));
       if (open) setTimeout(() => document.getElementById('siteSearch')?.focus(), 120);
     });
+    window.addEventListener('scroll', updateScrollProgress, { passive: true });
+    window.addEventListener('resize', updateScrollProgress);
+    updateScrollProgress();
   }
 
   function setupCatalog() {
