@@ -306,6 +306,7 @@
     const searchToggle = document.getElementById('searchToggle');
     const searchPanel = document.getElementById('searchPanel');
     const scrollProgress = document.getElementById('scrollProgress');
+    const backToTop = document.getElementById('backToTop');
     const updateScrollProgress = () => {
       if (!scrollProgress) return;
       const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -326,6 +327,10 @@
     window.addEventListener('scroll', updateScrollProgress, { passive: true });
     window.addEventListener('resize', updateScrollProgress);
     updateScrollProgress();
+    window.addEventListener('scroll', () => {
+      backToTop?.classList.toggle('visible', window.scrollY > 520);
+    }, { passive: true });
+    backToTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   }
 
   function setupCatalog() {
